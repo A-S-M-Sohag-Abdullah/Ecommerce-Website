@@ -1,0 +1,14 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "Backend Logics of Ecommerce App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "A. S. M. Sohag Abdullah",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
