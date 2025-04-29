@@ -1,5 +1,14 @@
-import Image from "next/image";
+import ItemsSingleLine from "@/components/ItemsSingleLine";
+import HomeBanner from "@/components/HomeBanner";
 
 export default function Home() {
-  return <>ss</>;
+  return (
+    <>
+      <HomeBanner />
+      <ItemsSingleLine />
+      <ItemsSingleLine /> 
+      <ItemsSingleLine />
+      <ItemsSingleLine />
+    </>
+  );
 }

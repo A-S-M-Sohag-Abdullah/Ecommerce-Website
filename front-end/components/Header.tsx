@@ -4,7 +4,7 @@ export default function Header() {
       <div className="container flex justify-between items-center px-4 py-6">
         <div className="text-3xl font-semibold text-red-400">Exclusive</div>
         <nav>
-          <ul className="flex [&>li:hover]:text-red-500 [&>li]:font-semibold">
+          <ul className="flex [&>li:hover]:text-red-500 [&>li]:font-semibold [&>li]:text-black ">
             <li className="px-3 font-medium">
               <a href="#">Home</a>
             </li>
@@ -23,7 +23,7 @@ export default function Header() {
           <input
             type="text"
             placeholder="Search Products Here"
-            className="focus:outline-0 text-sm w-full"
+            className="focus:outline-0 text-sm w-full text-black"
           />
         </div>
       </div>

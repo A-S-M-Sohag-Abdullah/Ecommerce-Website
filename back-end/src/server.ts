@@ -1,6 +1,6 @@
-import { connectDB } from './config/db';
-import { PORT } from './config/env';
-import app from './app';
+import { connectDB } from "./config/db";
+import { PORT } from "./config/env";
+import app from "./app";
 
 connectDB();
 
