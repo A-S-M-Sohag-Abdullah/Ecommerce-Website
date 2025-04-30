@@ -10,10 +10,10 @@ export default function Header() {
         <nav>
           <ul className="flex [&>li:hover]:text-red-500 [&>li]:font-semibold [&>li]:text-black ">
             <li className="px-3 font-medium">
-              <a href="#">Home</a>
+            <Link href="/">Home</Link>
             </li>
             <li className="px-3 font-medium">
-              <a href="#">Contact</a>
+            <Link href="/contact">Contact</Link>
             </li>
             <li className="px-3 font-medium">
               <a href="#">About</a>
