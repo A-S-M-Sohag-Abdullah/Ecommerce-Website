@@ -3,7 +3,7 @@ import { generateToken } from "../utils/jwt";
 import User from "../models/user.model";
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
-import { GOOGLE_CLIENT_ID } from "../config/env";
+import { GOOGLE_CLIENT_ID, JWT_SECRET } from "../config/env";
 
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
@@ -35,13 +35,8 @@ export const googleLogin = async (req: Request, res: Response) => {
       });
     }
 
-    // Create your JWT or session
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, {
-      expiresIn: "7d",
-    });
-
     res.status(200).json({
-      token,
+      token: generateToken(user._id as string),
       user: {
         _id: user._id,
         name: user.name,
