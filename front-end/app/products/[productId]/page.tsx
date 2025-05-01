@@ -1,0 +1,75 @@
+import ProductDetailsForm from "@/components/ProductDetailsForm";
+import Image from "next/image";
+
+const productDetails = (productId: string) => {
+  return (
+    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg my-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div>
+          <div className="flex flex-col space-y-4">
+            <Image
+              src="/main-product-image.png"
+              alt="Gamepad"
+              width={800}
+              height={600}
+              className="w-full rounded-lg shadow-2xl"
+            />
+            <div className="flex space-x-4 [&>img]:flex-auto">
+              <Image
+                src="/thumb-1.png"
+                alt="Thumb 1"
+                width={64}
+                height={64}
+                className="w-16 aspect-square rounded-lg shadow-2xl cursor-pointer"
+              />
+              <Image
+                src="/thumb-2.png"
+                alt="Thumb 2"
+                width={64}
+                height={64}
+                className="w-16 aspect-square rounded-lg shadow-2xl cursor-pointer"
+              />
+              <Image
+                src="/thumb-3.png"
+                alt="Thumb 3"
+                width={64}
+                height={64}
+                className="w-16 aspect-square rounded-lg shadow-2xl cursor-pointer"
+              />
+              <Image
+                src="/thumb-4.png"
+                alt="Thumb 4"
+                width={64}
+                height={64}
+                className="w-16 aspect-square rounded-lg shadow-2xl cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h1 className="text-2xl font-bold">Havic HV G-92 Gamepad</h1>
+          <div className="flex items-center space-x-2 text-yellow-500 mt-2">
+            <span>⭐⭐⭐⭐</span>
+            <span className="text-gray-500 text-sm">(120 Reviews)</span>
+          </div>
+          <p className="text-gray-600 mt-4">$192.00</p>
+          <p className="text-sm text-gray-500 mt-2">
+            PlayStation 5 Controller skin: High-quality vinyl with a channel
+            release air-free adhesive technology. Works with remote and manual
+            sensor function.
+          </p>
+
+          <ProductDetailsForm />
+
+          <div className="mt-6 text-sm text-gray-600 border-t pt-4">
+            <p>✅ Free Delivery</p>
+            <p>✅ Return Delivery (Easy 30 Days Return &amp; Refund)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default productDetails;

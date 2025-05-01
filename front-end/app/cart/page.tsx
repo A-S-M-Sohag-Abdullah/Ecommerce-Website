@@ -40,7 +40,8 @@ const cart = () => {
           <div className="flex items-center gap-2 justify-center">
             <input
               type="number"
-              value="1"
+              defaultValue={1}
+              min={1}
               className="w-12 border text-center"
             />
           </div>
@@ -68,7 +69,8 @@ const cart = () => {
           <div className="flex items-center gap-2 justify-center">
             <input
               type="number"
-              value="1"
+              defaultValue={1}
+              min={1}
               className="w-12 border text-center"
             />
           </div>

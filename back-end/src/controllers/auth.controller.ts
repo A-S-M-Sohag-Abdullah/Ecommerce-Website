@@ -1,6 +1,57 @@
 import { Request, Response } from "express";
 import { generateToken } from "../utils/jwt";
 import User from "../models/user.model";
+import { OAuth2Client } from "google-auth-library";
+import jwt from "jsonwebtoken";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+export const googleLogin = async (req: Request, res: Response) => {
+  const { credential } = req.body;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload || !payload.email) {
+      res.status(400).json({ message: "Invalid Google token" });
+      return;
+    }
+
+    // Find or create the user
+    let user = await User.findOne({ email: payload.email });
+
+    if (!user) {
+      user = await User.create({
+        name: payload.name,
+        email: payload.email,
+        avatar: payload.picture,
+        password: "GOOGLE_AUTH", // Just a placeholder, won't be used
+        isGoogle: true,
+      });
+    }
+
+    // Create your JWT or session
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
+
+    res.status(200).json({
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    console.error("Google Login Error:", error);
+    res.status(500).json({ message: "Login failed" });
+  }
+};
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   const { name, email, password } = req.body;

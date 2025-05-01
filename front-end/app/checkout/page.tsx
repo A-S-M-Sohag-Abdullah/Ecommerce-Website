@@ -160,16 +160,40 @@ const CheckoutPage = () => {
                   Online
                   <ul className="flex items-center space-x-2">
                     <li>
-                      <img src="./image/pay-m-1.svg" alt="" />
+                      <Image
+                        src="/pay-m-1.png"
+                        alt="bkash"
+                        width={40}
+                        height={20}
+                        priority={true}
+                      />
                     </li>
                     <li>
-                      <img src="./image/pay-m-2.svg" alt="" />
+                      <Image
+                        src="/pay-m-2.png"
+                        alt="bkash"
+                        width={40}
+                        height={20}
+                        priority={true}
+                      />
                     </li>
                     <li>
-                      <img src="./image/pay-m-3.svg" alt="" />
+                      <Image
+                        src="/pay-m-3.png"
+                        alt="bkash"
+                        width={40}
+                        height={20}
+                        priority={true}
+                      />
                     </li>
                     <li>
-                      <img src="./image/pay-m-4.svg" alt="" />
+                      <Image
+                        src="/pay-m-4.png"
+                        alt="bkash"
+                        width={40}
+                        height={20}
+                        priority={true}
+                      />
                     </li>
                   </ul>
                 </span>
