@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
+import { JWT_SECRET } from "../config/env";
 
 export const protect = async (req: any, res: Response, next: NextFunction) => {
   let token: string | undefined;
@@ -11,7 +12,7 @@ export const protect = async (req: any, res: Response, next: NextFunction) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      const decoded: any = jwt.verify(token as string, process.env.JWT_SECRET as string);
+      const decoded: any = jwt.verify(token as string, JWT_SECRET as string);
 
       req.user = await User.findById(decoded.id).select("-password");
       next();
