@@ -1,8 +1,33 @@
-import Link from "next/link";
+"use client";
 
-export default function Login() {
+import Link from "next/link";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import { register } from "@/features/auth/authSlice";
+import { useRouter } from "next/navigation";
+
+export default function Signup() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = useSelector((state: RootState) => state.auth);
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      console.log("hi");
+      const res = await dispatch(register({ name, email, password })).unwrap();
+      console.log("Register success:", res);
+      //router.push("/profile");
+    } catch (err: any) {
+      console.log("Register failed:", err.message || err);
+    }
+  };
   return (
-    <form action="" className="flex flex-col w-md">
+    <form action="" className="flex flex-col w-md" onSubmit={handleSubmit}>
       <h1 className="text-3xl mb-2 font-medium">Create an account</h1>
       <p className="text-md mb-7 font-medium">Enter your details below</p>
 
@@ -10,12 +35,16 @@ export default function Login() {
         type="text"
         placeholder="Name"
         className="p-2 border-b mb-9 focus:outline-0"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
 
       <input
         type="text"
         placeholder="Email or Phone Number"
         className="p-2 border-b mb-9 focus:outline-0"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
@@ -23,6 +52,8 @@ export default function Login() {
         name=""
         id=""
         placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         className="p-2 border-b mb-9 focus:outline-0"
       />
 

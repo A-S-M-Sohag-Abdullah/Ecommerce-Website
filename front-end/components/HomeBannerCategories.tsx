@@ -1,3 +1,4 @@
+
 import axios from "axios";
 
 const fetchCategories = async (): Promise<string[] | null> => {
@@ -5,7 +6,7 @@ const fetchCategories = async (): Promise<string[] | null> => {
     const response = await axios.get("");
     return response.data;
   } catch (error) {
-    console.log("Error fetching categories:");
+    //console.log("Error fetching categories:");
     return null;
   }
 };

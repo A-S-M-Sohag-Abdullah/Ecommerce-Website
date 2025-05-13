@@ -1,6 +1,8 @@
+
 import Link from "next/link";
 
 export default function Login() {
+
   return (
     <form action="" className="flex flex-col w-md">
       <h1 className="text-3xl mb-2 font-medium">Log in to Exclusive</h1>
@@ -36,7 +38,6 @@ export default function Login() {
         <Link href="/auth/signup" className="border-b ms-1">
           Signup
         </Link>
-        
       </p>
     </form>
   );

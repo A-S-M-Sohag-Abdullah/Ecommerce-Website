@@ -62,12 +62,15 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
   try {
     const user = await User.create({ name, email, password });
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user._id as string),
-    });
+    res
+      .status(201)
+      .header("Authorization", `Bearer ${generateToken(user._id as string)}`)
+      .json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user._id as string),
+      });
   } catch (err) {
     res.status(500).json({ message: "Server Error" });
   }
