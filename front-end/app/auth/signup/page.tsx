@@ -18,9 +18,8 @@ export default function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log("hi");
       const res = await dispatch(register({ name, email, password })).unwrap();
-      console.log("Register success:", res);
+
       //router.push("/profile");
     } catch (err: any) {
       console.log("Register failed:", err.message || err);

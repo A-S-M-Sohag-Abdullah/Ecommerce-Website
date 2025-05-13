@@ -5,8 +5,16 @@ export const registerUser = async (credentials: {
   email: string;
   password: string;
 }) => {
-  console.log("Registering user with credentials:", credentials);
-  console.log(axiosInstance.defaults.baseURL);
   const res = await axiosInstance.post("/auth/register", credentials);
+  localStorage.setItem("token", res.data.token);
+  return res.data;
+};
+
+export const loginUser = async (credentials: {
+  email: string;
+  password: string;
+}) => {
+  const res = await axiosInstance.post("/auth/login", credentials);
+  localStorage.setItem("token", res.data.token);
   return res.data;
 };

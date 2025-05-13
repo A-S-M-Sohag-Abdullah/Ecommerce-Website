@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser } from "@/api/authApi";
+import { loginUser, registerUser } from "@/api/authApi";
 
 export const register = createAsyncThunk("auth/register", registerUser);
+
+export const login = createAsyncThunk("auth/login", loginUser);
 
 const initialState = {
   user: null, // User object will be stored here after successful login
@@ -19,6 +21,9 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(register.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
       state.user = action.payload.user;
     });
   },
