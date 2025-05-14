@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.routes";
 import { errorHandler } from "./middlewares/error.middleware";
 import couponRoutes from "./routes/coupon.routes";
 import contactRoutes from "./routes/contact.routes";
+import paymentRoutes from "./routes/payment.routes";
 import { FRONTEND_URL } from "./config/env";
 
 const app = express();
@@ -27,7 +28,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/contact", contactRoutes);
-
+app.use("/api/payment", paymentRoutes);
 app.use(errorHandler);
 
 export default app;
