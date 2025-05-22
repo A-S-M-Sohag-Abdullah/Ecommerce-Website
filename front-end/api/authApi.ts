@@ -18,3 +18,19 @@ export const loginUser = async (credentials: {
   localStorage.setItem("token", res.data.token);
   return res.data;
 };
+
+// src/redux/api/googleLoginUser.ts
+export const googleLoginUser = async () => {
+  window.open("http://localhost:5000/api/auth/google/callback", "_self");
+};
+
+export const getLoggedInUser = async () => {
+  const token = localStorage.getItem("token");
+  const res = await axiosInstance.get("/auth/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("res", res);
+  return res.data;
+};

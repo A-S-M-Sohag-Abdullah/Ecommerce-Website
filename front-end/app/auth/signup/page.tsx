@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { register } from "@/features/auth/authSlice";
+import {  register } from "@/features/auth/authSlice";
 import { useRouter } from "next/navigation";
+import { googleLoginUser } from "@/api/authApi";
 
 export default function Signup() {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,6 +26,11 @@ export default function Signup() {
       console.log("Register failed:", err.message || err);
     }
   };
+
+  const handleGoogleLogin = async () => {
+    googleLoginUser();
+  };
+
   return (
     <form action="" className="flex flex-col w-md" onSubmit={handleSubmit}>
       <h1 className="text-3xl mb-2 font-medium">Create an account</h1>
@@ -59,7 +65,16 @@ export default function Signup() {
       <button className="p-4 w-full bg-red-400 text-white text-xl rounded-sm mb-3 cursor-pointer">
         Create Account
       </button>
-      <button className="border border-gray-500 p-4 flex justify-center rounded-sm cursor-pointer">
+      <button
+        type="button"
+        onClick={() => {
+          // Here you would trigger the Google login popup and get the credential response,
+          // then call handleGoogleLogin with the response.
+          // For demonstration, we'll call with an empty object.
+          handleGoogleLogin();
+        }}
+        className="border border-gray-500 p-4 flex justify-center rounded-sm cursor-pointer"
+      >
         {" "}
         <img src="/google.png" alt="" className="me-1" /> Sign in With Google
       </button>

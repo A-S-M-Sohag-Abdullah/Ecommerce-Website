@@ -5,7 +5,8 @@ import { JWT_SECRET } from "../config/env";
 
 export const protect = async (req: any, res: Response, next: NextFunction) => {
   let token: string | undefined;
-
+  console.log("req.headers.authorization", req.headers.authorization);
+  console.log("req.headers", req.headers);
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")

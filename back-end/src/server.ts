@@ -4,6 +4,10 @@ import app from "./app";
 
 connectDB();
 
-app.listen(PORT, () => {
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
+app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });

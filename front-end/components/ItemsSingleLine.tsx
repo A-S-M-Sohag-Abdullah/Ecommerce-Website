@@ -1,6 +1,7 @@
 import { getProducts } from "@/api/productApi";
 import { get } from "http";
 import Image from "next/image";
+import Link from "next/link";
 
 interface product {
   id: string;
@@ -45,7 +46,12 @@ const ItemsSingleLine = async () => {
                 </button>
               </div>
 
-              <h3 className="font-medium mt-2">{product.title}</h3>
+              <Link
+                href={`/products/${product.id}`}
+                className="font-medium mt-2"
+              >
+                {product.title}
+              </Link>
               <p className="text-red-400 font-medium">
                 ${product.price}{" "}
                 <span className="ms-1 line-through text-gray-400">$160</span>

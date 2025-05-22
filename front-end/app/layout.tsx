@@ -9,7 +9,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
-import ReduxProvider from "@/store/ReduxProvider";
+import ReduxProvider from "@/app/providers/ReduxProvider";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,11 +37,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {" "}
         <ReduxProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />{" "}
+          <LayoutWrapper>{children}</LayoutWrapper>
         </ReduxProvider>
       </body>
     </html>

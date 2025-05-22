@@ -8,7 +8,10 @@ import { errorHandler } from "./middlewares/error.middleware";
 import couponRoutes from "./routes/coupon.routes";
 import contactRoutes from "./routes/contact.routes";
 import paymentRoutes from "./routes/payment.routes";
+import session from "express-session";
+import passport from "passport";
 import { FRONTEND_URL } from "./config/env";
+import "./config/passport";
 
 const app = express();
 
@@ -21,6 +24,8 @@ app.use(
   })
 );
 app.use(express.json());
+
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);

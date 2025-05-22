@@ -7,49 +7,41 @@ import crypto from "crypto";
 import { GOOGLE_CLIENT_ID, JWT_SECRET } from "../config/env";
 import nodemailer from "nodemailer";
 import { generateResetToken } from "../utils/generateToken";
+import passport from "passport";
+import { IUser } from "../types/user";
+export const googleAuth = passport.authenticate("google", {
+  scope: ["profile", "email"],
+});
 
-const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+// Handles callback from Google
+export const googleCallback = [
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/login-failure",
+  }),
+  (req: Request, res: Response) => {
+    const user = req.user as IUser; // Make sure `req.user` is typed correctly
+    const token = generateToken(user._id);
 
-export const googleLogin = async (req: Request, res: Response) => {
-  const { credential } = req.body;
+    // Option 1: Redirect with token in query param
+    console.log(req.user);
+    res.redirect(`http://localhost:3000/authSuccess?token=${token}`);
 
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: credential,
-      audience: GOOGLE_CLIENT_ID,
-    });
+    // Option 2: Or return JSON (if you’re hitting via fetch)
+    //res.status(200).json({ token, user });
+  },
+];
 
-    const payload = ticket.getPayload();
-    if (!payload || !payload.email) {
-      res.status(400).json({ message: "Invalid Google token" });
-      return;
-    }
+// Auth failure route
+export const googleFailure = (_req: Request, res: Response) => {
+  res.status(401).send("Failed to authenticate with Google");
+};
 
-    // Find or create the user
-    let user = await User.findOne({ email: payload.email });
-
-    if (!user) {
-      user = await User.create({
-        name: payload.name,
-        email: payload.email,
-        avatar: payload.picture,
-        password: "GOOGLE_AUTH", // Just a placeholder, won't be used
-        isGoogle: true,
-      });
-    }
-
-    res.status(200).json({
-      token: generateToken(user._id as string),
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-    });
-  } catch (error) {
-    console.error("Google Login Error:", error);
-    res.status(500).json({ message: "Login failed" });
-  }
+// Logout route
+export const logout = (req: Request, res: Response) => {
+  req.logout(() => {
+    res.redirect("http://localhost:3000");
+  });
 };
 
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -62,15 +54,14 @@ export const register = async (req: Request, res: Response): Promise<void> => {
   }
   try {
     const user = await User.create({ name, email, password });
-    res
-      .status(201)
-      .header("Authorization", `Bearer ${generateToken(user._id as string)}`)
-      .json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        token: generateToken(user._id as string),
-      });
+    const token = generateToken(user._id as string);
+
+    res.status(201).header("Authorization", `Bearer ${token}`).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: token,
+    });
   } catch (err) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -80,12 +71,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (user && (await user.matchPassword(password))) {
-    res.json({
+
+  if (user && (await user.matchPassword(password)) && !user?.isGoogle) {
+    const token = generateToken(user._id as string);
+    res.header("Authorization", `Bearer ${token}`).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: generateToken(user._id as string),
+      token: token,
     });
   } else {
     res.status(401).json({ message: "Invalid credentials" });
@@ -155,4 +148,15 @@ export const resetPassword = async (req: Request, res: Response) => {
   await user.save();
 
   res.json({ message: "Password updated successfully" });
+};
+
+// GET Logged In USER PROFILE
+export const getLoggedInUser = async (req: any, res: Response) => {
+  const user = await User.findById(req.user._id).select("-password");
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+    return;
+  }
+
+  res.json(user);
 };

@@ -5,15 +5,21 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  googleId?: string;
+  avatar?: string;
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
+  isGoogle?: boolean;
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
 const userSchema = new Schema<IUser>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  googleId: { type: String },
   password: { type: String, required: true },
+  avatar: { type: String, default: "https://www.gravatar.com/avatar/?d=mp" },
+  isGoogle: { type: Boolean, default: false },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
 });

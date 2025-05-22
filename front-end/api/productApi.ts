@@ -25,3 +25,17 @@ export const getProducts: () => Promise<Product[]> = async () => {
     return [];
   }
 };
+
+export const getProductById = async (productId: string) => {  
+  try {
+    const res = await fetch(`https://fakestoreapi.com/products/${productId}`, {
+      cache: "no-store", // SSR — no caching
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch product");
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return null;
+  }
+}

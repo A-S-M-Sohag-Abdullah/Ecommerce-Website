@@ -17,8 +17,9 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await dispatch(login({ email, password })).unwrap();
+
       console.log("Login response:", res);
-      //router.push("/profile");
+      router.push("/");
     } catch (err: any) {
       console.log("Login failed:", err.message || err);
     }
