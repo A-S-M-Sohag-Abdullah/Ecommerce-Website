@@ -2,6 +2,7 @@ import { getProducts } from "@/api/productApi";
 import { get } from "http";
 import Image from "next/image";
 import Link from "next/link";
+import AddToCartBtn from "./AddToCartBtn";
 
 interface product {
   id: string;
@@ -32,9 +33,7 @@ const ItemsSingleLine = async () => {
                   height={100}
                   className="w-3/4"
                 />
-                <div className="absolute bottom-0 left-0 bg-black text-white text-center w-full h-10 pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-                  Add to cart
-                </div>
+                <AddToCartBtn product={product} />
                 <button className="rounded-full size-7 flex items-center justify-center bg-white absolute top-3 right-3 cursor-pointer">
                   <Image
                     src="/add-to-fav.png"

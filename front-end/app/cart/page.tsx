@@ -1,3 +1,5 @@
+import CartItems from "@/components/CartItems";
+import CartTotal from "@/components/CartTotal";
 import Image from "next/image";
 
 const cart = () => {
@@ -19,72 +21,13 @@ const cart = () => {
           <div className="flex items-center gap-2 justify-end">
             <p className="font-semibold">Subtotal</p>
           </div>
-          <div className="flex items-center gap-4">
-            <Image
-              src={"/product.png"}
-              alt="product image"
-              width={50}
-              height={50}
-              className="me-3 w-12 "
-              priority={true}
-            />
 
-            <div>
-              <h3 className="font-semibold">Hi Gamepad</h3>
-              <p className="text-gray-500">$150</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 justify-center">
-            <p className="font-semibold">$850</p>
-          </div>
-          <div className="flex items-center gap-2 justify-center">
-            <input
-              type="number"
-              defaultValue={1}
-              min={1}
-              className="w-12 border text-center"
-            />
-          </div>
-          <div className="flex items-center gap-2 justify-end">
-            <p className="font-semibold">$850</p>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Image
-              src={"/product.png"}
-              alt="product image"
-              width={50}
-              height={50}
-              className="me-3 w-12 "
-              priority={true}
-            />
-            <div>
-              <h3 className="font-semibold">Hi Gamepad</h3>
-              <p className="text-gray-500">$150</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 justify-center">
-            <p className="font-semibold">$850</p>
-          </div>
-          <div className="flex items-center gap-2 justify-center">
-            <input
-              type="number"
-              defaultValue={1}
-              min={1}
-              className="w-12 border text-center"
-            />
-          </div>
-          <div className="flex items-center gap-2 justify-end">
-            <p className="font-semibold">$850</p>
-          </div>
+          <CartItems />
         </div>
 
         <div className="flex justify-between mt-6">
           <button className="px-4 py-2 bg-gray-300 text-gray-700 rounded cursor-pointer">
             Return To Shop
-          </button>
-          <button className="px-4 py-2 bg-gray-300 text-gray-700 rounded cursor-pointer">
-            Update Cart
           </button>
         </div>
 
@@ -99,21 +42,7 @@ const cart = () => {
           </button>
         </div>
 
-        <div className="mt-6 p-4 border rounded-md w-1/2 ms-auto">
-          <h2 className="text-lg font-bold">Cart Total</h2>
-          <p className="flex justify-between">
-            <span>Subtotal:</span> <span>$1150</span>
-          </p>
-          <p className="flex justify-between">
-            <span>Shipping:</span> <span>Free</span>
-          </p>
-          <p className="flex justify-between font-bold text-lg">
-            <span>Total:</span> <span>$1150</span>
-          </p>
-          <button className="w-full mt-4 bg-red-400 text-white py-2 rounded cursor-pointer">
-            Proceed to Checkout
-          </button>
-        </div>
+        <CartTotal />
       </div>
     </section>
   );
