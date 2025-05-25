@@ -25,6 +25,12 @@ export const googleCallback = [
 
     // Option 1: Redirect with token in query param
     console.log(req.user);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true, // use HTTPS in prod
+      sameSite: "strict", // helps prevent CSRF
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+    });
     res.redirect(`http://localhost:3000/authSuccess?token=${token}`);
 
     // Option 2: Or return JSON (if you’re hitting via fetch)
@@ -56,12 +62,19 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const user = await User.create({ name, email, password });
     const token = generateToken(user._id as string);
 
-    res.status(201).header("Authorization", `Bearer ${token}`).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: token,
-    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true, // use HTTPS in prod
+        sameSite: "strict", // helps prevent CSRF
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+      })
+      .json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: token,
+      });
   } catch (err) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -74,12 +87,19 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
   if (user && (await user.matchPassword(password)) && !user?.isGoogle) {
     const token = generateToken(user._id as string);
-    res.header("Authorization", `Bearer ${token}`).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: token,
-    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true, // use HTTPS in prod
+        sameSite: "strict", // helps prevent CSRF
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
+      })
+      .json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token: token,
+      });
   } else {
     res.status(401).json({ message: "Invalid credentials" });
   }

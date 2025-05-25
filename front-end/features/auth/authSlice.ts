@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import {
   getLoggedInUser,
   googleLoginUser,
@@ -10,8 +11,6 @@ import { get } from "http";
 export const register = createAsyncThunk("auth/register", registerUser);
 
 export const login = createAsyncThunk("auth/login", loginUser);
-
-
 
 export const getUser = createAsyncThunk(
   "auth/getLoggedInUser",
@@ -42,12 +41,13 @@ const authSlice = createSlice({
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.user = action.payload;
+      toast("Successfully Signed in");
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = action.payload;
       state.loading = false;
+      toast("Successfully Signed in");
     });
-
   },
 });
 

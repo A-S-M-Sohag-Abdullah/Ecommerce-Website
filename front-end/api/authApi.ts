@@ -5,8 +5,9 @@ export const registerUser = async (credentials: {
   email: string;
   password: string;
 }) => {
-  const res = await axiosInstance.post("/auth/register", credentials);
-  localStorage.setItem("token", res.data.token);
+  const res = await axiosInstance.post("/api/auth/register", credentials, {
+    withCredentials: true, // Include cookies
+  });
   return res.data;
 };
 
@@ -14,8 +15,9 @@ export const loginUser = async (credentials: {
   email: string;
   password: string;
 }) => {
-  const res = await axiosInstance.post("/auth/login", credentials);
-  localStorage.setItem("token", res.data.token);
+  const res = await axiosInstance.post("/api/auth/login", credentials, {
+    withCredentials: true, // So cookie gets set
+  });
   return res.data;
 };
 
@@ -25,12 +27,9 @@ export const googleLoginUser = async () => {
 };
 
 export const getLoggedInUser = async () => {
-  const token = localStorage.getItem("token");
-  const res = await axiosInstance.get("/auth/me", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const res = await axiosInstance.get("/api/auth/me", {
+    withCredentials: true, // So cookie is sent
   });
-  console.log("res", res);
+  console.log(res.data);
   return res.data;
 };

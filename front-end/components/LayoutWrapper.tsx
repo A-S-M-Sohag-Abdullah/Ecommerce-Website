@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ToastContainer  } from "react-toastify";
 
 export default function LayoutWrapper({
   children,
@@ -19,7 +20,9 @@ export default function LayoutWrapper({
   return (
     <>
       {!hideLayout && <Header />}
-      <main>{children}</main>
+      <main>
+        {children} <ToastContainer />
+      </main>
       {!hideLayout && <Footer />}
     </>
   );

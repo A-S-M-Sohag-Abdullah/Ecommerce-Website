@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { toast } from "react-toastify";
 export interface CartItem {
   id: string;
   title: string;
@@ -46,6 +46,7 @@ const cartSlice = createSlice({
       } else {
         state.items.push({ ...item, quantity: item.quantity || 1 });
       }
+      toast("Added to Cart",{ autoClose: 1000 });
       saveToLocalStorage(state.items);
     },
     updateCart: (

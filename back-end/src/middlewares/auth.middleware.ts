@@ -3,26 +3,31 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
 import { JWT_SECRET } from "../config/env";
 
-export const protect = async (req: any, res: Response, next: NextFunction) => {
-  let token: string | undefined;
-  console.log("req.headers.authorization", req.headers.authorization);
-  console.log("req.headers", req.headers);
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    try {
-      token = req.headers.authorization.split(" ")[1];
-      const decoded: any = jwt.verify(token as string, JWT_SECRET as string);
-
-      req.user = await User.findById(decoded.id).select("-password");
-      next();
-    } catch (error) {
-      res.status(401).json({ message: "Not authorized, token failed" });
+export const protect = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const token = req.cookies.token; // ⬅️ Token comes from HTTP-only cookie
+    console.log(token);
+    if (!token) {
+      res.status(401).json({ message: "Not authorized, no token" });
+      return;
     }
-  }
 
-  if (!token) {
-    res.status(401).json({ message: "Not authorized, no token" });
+    const decoded: any = jwt.verify(token, JWT_SECRET as string);
+    req.user = await User.findById(decoded.id).select("-password");
+
+    if (!req.user) {
+      res.status(401).json({ message: "User not found" });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.log(req.cookies);
+    console.log("Auth errors:", error);
+    res.status(401).json({ message: "Not authorized, token failed" });
   }
 };

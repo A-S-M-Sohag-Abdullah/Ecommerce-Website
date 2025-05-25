@@ -10,15 +10,23 @@ import contactRoutes from "./routes/contact.routes";
 import paymentRoutes from "./routes/payment.routes";
 import { FRONTEND_URL } from "./config/env";
 import "./config/passport";
+import cookieParser from "cookie-parser";
 
 const app = express();
-
+app.use(cookieParser());
 app.use(
   cors({
-    origin: FRONTEND_URL?.split(","), // Allow frontend to access the backend
-    credentials: true, // Allow cookies and authorization headers
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+    origin: (origin, callback) => {
+      const allowedOrigins = FRONTEND_URL?.split(",") || [];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // ✅ Allow cookies
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 app.use(express.json());
