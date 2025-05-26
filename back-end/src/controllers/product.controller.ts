@@ -3,6 +3,7 @@ import Product from "../models/product.model";
 
 export const getProducts = async (req: Request, res: Response) => {
   const products = await Product.find();
+  console.log('hit')
   res.json(products);
 };
 

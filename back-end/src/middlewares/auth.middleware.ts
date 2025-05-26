@@ -10,7 +10,6 @@ export const protect = async (
 ) => {
   try {
     const token = req.cookies.token; // ⬅️ Token comes from HTTP-only cookie
-    console.log(token);
     if (!token) {
       res.status(401).json({ message: "Not authorized, no token" });
       return;

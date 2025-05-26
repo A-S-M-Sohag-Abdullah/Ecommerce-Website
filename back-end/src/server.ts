@@ -8,6 +8,6 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-app.listen(Number(PORT), "0.0.0.0", () => {
+app.listen(Number(PORT), () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,6 +1,7 @@
 import User from "../models/user.model";
-import  Product  from "../models/product.model";
-import  Order  from "../models/order.model";
+import Product from "../models/product.model";
+import Order from "../models/order.model";
+import axios from "axios";
 
 export const seedDatabase = async () => {
   try {
@@ -46,5 +47,36 @@ export const seedDatabase = async () => {
     console.log("✅ Dummy data inserted successfully!");
   } catch (error) {
     console.error("❌ Error seeding database:", error);
+  }
+};
+
+export const importFakeProducts = async () => {
+  try {
+    const response = await axios.get("https://fakestoreapi.com/products");
+    const products = response.data;
+
+    // Optional: Clear existing products
+    await Product.deleteMany({});
+
+    // 3. Map and save each product
+    for (const item of products) {
+      await Product.create({
+        name: item.title,
+        description: item.description,
+        price: item.price,
+        image: item.image,
+        category: item.category,
+        countInStock: Math.floor(Math.random() * 50) + 1, // Random stock for demo
+        rating: {
+          rate: item.rating?.rate || 0,
+          count: item.rating?.count || 0,
+        },
+      });
+    }
+    console.log("✅ Products imported successfully!");
+    process.exit();
+  } catch (error) {
+    console.error("❌ Error importing products:", error);
+    process.exit(1);
   }
 };

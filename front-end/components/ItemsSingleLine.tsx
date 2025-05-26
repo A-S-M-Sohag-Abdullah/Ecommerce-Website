@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import AddToCartBtn from "./AddToCartBtn";
 
-interface product {
-  id: string;
-  title: string;
+interface Product {
+  _id: string;
+  name: string;
   description: string;
   category: string;
   price: number;
@@ -18,13 +18,14 @@ interface product {
 }
 
 const ItemsSingleLine = async () => {
-  const products: product[] = await getProducts();
+  const products: Product[] = await getProducts();
+  console.log(products);
   return (
     <section>
       <div className="container mx-auto my-5 ">
         <div className="grid space-x-10 flex-wrap space-y-4 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">
           {products.map((product, index) => (
-            <div key={product.id} className="w-full">
+            <div key={product._id} className="w-full">
               <div className="rounded-sm overflow-hidden w-full aspect-square relative flex items-center justify-center bg-gray-200 group">
                 <Image
                   src={product.image}
@@ -46,10 +47,10 @@ const ItemsSingleLine = async () => {
               </div>
 
               <Link
-                href={`/products/${product.id}`}
+                href={`/products/${product._id}`}
                 className="font-medium mt-2"
               >
-                {product.title}
+                {product.name}
               </Link>
               <p className="text-red-400 font-medium">
                 ${product.price}{" "}

@@ -16,14 +16,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = FRONTEND_URL?.split(",") || [];
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: FRONTEND_URL?.split(",") || [],
     credentials: true, // ✅ Allow cookies
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],

@@ -172,6 +172,7 @@ export const resetPassword = async (req: Request, res: Response) => {
 
 // GET Logged In USER PROFILE
 export const getLoggedInUser = async (req: any, res: Response) => {
+  console.log('hit')
   const user = await User.findById(req.user._id).select("-password");
   if (!user) {
     res.status(404).json({ message: "User not found" });

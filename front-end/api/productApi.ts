@@ -1,6 +1,9 @@
+import axiosInstance from "@/lib/axiosInstance";
+import axios from "axios";
+
 interface Product {
-  id: string;
-  title: string;
+  _id: string;
+  name: string;
   description: string;
   category: string;
   price: number;
@@ -11,31 +14,28 @@ interface Product {
   };
 }
 
-export const getProducts: () => Promise<Product[]> = async () => {
+// Get all products
+export const getProducts = async (): Promise<Product[]> => {
   try {
-    const res = await fetch("https://fakestoreapi.com/products", {
-      cache: "no-store", // SSR — no caching
+    const res = await axiosInstance.get(`/api/products/`, {
+      withCredentials: true,
     });
-
-    if (!res.ok) throw new Error("Failed to fetch products");
-    return res.json();
-    
+    return res.data;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.log("Error fetching products:", error);
     return [];
   }
 };
 
-export const getProductById = async (productId: string) => {  
+// Get product by ID
+export const getProductById = async (
+  productId: string
+): Promise<Product | null> => {
   try {
-    const res = await fetch(`https://fakestoreapi.com/products/${productId}`, {
-      cache: "no-store", // SSR — no caching
-    });
-
-    if (!res.ok) throw new Error("Failed to fetch product");
-    return res.json();
+    const res = await axiosInstance.get(`/api/products/${productId}`);
+    return res.data;
   } catch (error) {
     console.error("Error fetching product:", error);
     return null;
   }
-}
+};

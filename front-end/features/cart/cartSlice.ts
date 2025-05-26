@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 export interface CartItem {
-  id: string;
-  title: string;
+  _id: string;
+  name: string;
   price: number;
   quantity: number;
   image?: string;
@@ -40,7 +40,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<CartItem>) => {
       const item = action.payload;
-      const existingItem = state.items.find((i) => i.id === item.id);
+      const existingItem = state.items.find((i) => i._id === item._id);
       if (existingItem) {
         existingItem.quantity += item.quantity;
       } else {
@@ -54,14 +54,14 @@ const cartSlice = createSlice({
       action: PayloadAction<{ id: string; quantity: number }>
     ) => {
       const { id, quantity } = action.payload;
-      const item = state.items.find((i) => i.id === id);
+      const item = state.items.find((i) => i._id === id);
       if (item) {
         item.quantity = quantity;
       }
       saveToLocalStorage(state.items);
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
+      state.items = state.items.filter((item) => item._id !== action.payload);
       saveToLocalStorage(state.items);
     },
     clearCart: (state) => {

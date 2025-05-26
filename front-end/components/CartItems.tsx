@@ -19,7 +19,7 @@ function CartItems() {
     <>
       {cart.map((item) => {
         return (
-          <Fragment key={item.id}>
+          <Fragment key={item._id}>
             <div className="flex items-center gap-4">
               <Image
                 src={item?.image || ""}
@@ -32,8 +32,8 @@ function CartItems() {
 
               <div>
                 <h3 className="font-medium">
-                  {item.title.slice(0, 20)}
-                  {item.title.length > 20 ? "..." : ""}
+                  {item.name.slice(0, 20)}
+                  {item.name.length > 20 ? "..." : ""}
                 </h3>
               </div>
             </div>
@@ -47,7 +47,7 @@ function CartItems() {
                 min={1}
                 className="w-12 border text-center"
                 onChange={(e) =>
-                  handleQuantityChange(item.id, parseInt(e.target.value))
+                  handleQuantityChange(item._id, parseInt(e.target.value))
                 }
               />
             </div>

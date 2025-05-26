@@ -4,8 +4,8 @@ import { addToCart } from "@/features/cart/cartSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 type product = {
-  id: string;
-  title: string;
+  _id: string;
+  name: string;
   description: string;
   category: string;
   price: number;
@@ -26,8 +26,8 @@ const AddToCartBtn = ({ product }: AddToCartBtnProps) => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        id: product.id,
-        title: product.title,
+        _id: product._id,
+        name: product.name,
         price: product.price,
         image: product.image,
         quantity: 1,

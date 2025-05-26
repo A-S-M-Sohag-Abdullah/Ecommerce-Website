@@ -2,12 +2,16 @@ import { getProductById } from "@/api/productApi";
 import ProductDetailsForm from "@/components/ProductDetailsForm";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 type Props = {
   params: {
     productId: string;
   };
 };
+
+
+
 
 const productDetails = async ({ params }: Props) => {
   const { productId } = params;
@@ -16,7 +20,6 @@ const productDetails = async ({ params }: Props) => {
   if (!product) {
     notFound();
   }
-  console.log(product);
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg my-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -63,7 +66,7 @@ const productDetails = async ({ params }: Props) => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-bold">{product.title}</h1>
+          <h1 className="text-2xl font-bold">{product.name}</h1>
           <div className="flex items-center space-x-2 text-yellow-500 mt-2">
             <span className="flex items-center space-x-1">
               {Array.from({ length: Math.round(product.rating.rate) }).map(
