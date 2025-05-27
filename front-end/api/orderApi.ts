@@ -16,9 +16,22 @@ type Order = {
 };
 
 export const placeOrder = async (order: Order) => {
-  const res = await axiosInstance.post("/api/orders/createOrder/", order, {
-    withCredentials: true, // Include cookies
-  });
-  
-  return res.data;
+  if (order.paymentMethod !== "online") {
+    const res = await axiosInstance.post("/api/orders/createOrder/", order, {
+      withCredentials: true, // Include cookies
+    });
+
+    return res.data;
+  } else {
+    console.log("Initiating online payment for order:", order);
+    const res = await axiosInstance.post(
+      "/api/payment/initiate",
+      order,
+      {
+        withCredentials: true,
+      }
+    );
+    window.location.replace(res.data.url);
+    console.log("Payment initiation response:", res.data.url);
+  }
 };

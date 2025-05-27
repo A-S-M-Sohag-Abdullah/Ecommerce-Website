@@ -6,6 +6,8 @@ export interface IOrder extends Document {
   shippingAddress: object;
   phoneNumber: string;
   paymentMethod: string; // Note: This seems to be a typo, should it be 'paymentMethod'?
+  paidStatus?: boolean;
+  trasactionId?: string; // Optional field for transaction ID
   totalPrice: number;
 }
 
@@ -14,6 +16,8 @@ const orderSchema = new Schema<IOrder>(
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
     orderItems: [{ type: Object, required: true }],
     paymentMethod: { type: String, required: true }, // Corrected typo from 'paymetmethod' to 'paymentMethod'
+    trasactionId: { type: String, required: false }, // Optional field for transaction ID
+    paidStatus: { type: Boolean, default: false },
     phoneNumber: { type: String, required: true },
     shippingAddress: { type: Object, required: true },
     totalPrice: { type: Number, required: true },

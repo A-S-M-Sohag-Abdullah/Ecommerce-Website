@@ -61,9 +61,7 @@ const CheckoutPage = () => {
   }, []);
 
   const handlePlaceOrder = async () => {
-    console.log("Order Placed:", formData);
     // You can POST to backend here
-    console.log("Cart Items:", cart);
 
     const orderDetails = {
       orderItems: cart.map((item) => ({
