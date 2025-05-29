@@ -29,9 +29,9 @@ export default function RootLayout({
       <body>
         <main>
           <TopBar />
-          <div className="flex">
+          <div className="flex flex-wrap">
             <Sidebar />
-            {children}
+            <main className="max-w-4/5 flex w-4/5 flex-wrap">{children}</main>
           </div>
         </main>
       </body>

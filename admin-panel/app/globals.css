@@ -6,7 +6,7 @@
 }
 
 @theme {
-  --color-regal-blue: #070B1D;
+  --color-regal-blue: #070b1d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +18,29 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.apexcharts-tooltip {
+  border-radius: 0.75rem !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  padding: 0.75rem !important;
+  background-color: #333752 !important;
+  border: none !important;
+}
+
+.apexcharts-tooltip-title {
+  font-weight: 500;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #333752 !important;
+}
+
+.apexcharts-tooltip-series-group {
+  padding: 4px 0;
+}
+
+.apexcharts-tooltip-text {
+  color: #ffffff;
+  vertical-align: middle;
+  margin-top: 5px;
 }

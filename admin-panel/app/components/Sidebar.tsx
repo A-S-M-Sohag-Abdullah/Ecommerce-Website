@@ -15,7 +15,7 @@ const Sidebar = () => {
     { label: "Inbox", src: "/icons/inbox.svg" },
   ];
 
-/*   const otherInfo = [
+  /*   const otherInfo = [
     { label: "Knowledge Base", src: "/icons/knowledge.svg" },
     { label: "Product Updates", src: "/icons/updates.svg" },
   ];
@@ -26,12 +26,14 @@ const Sidebar = () => {
   ];
  */
   return (
-    <aside className="bg-[#1E2753] text-white w-64 min-h-screen p-4 space-y-6 text-sm">
+    <aside className="shrink-0 bg-[#1E2753] text-white w-1/5 min-h-screen p-4 space-y-6 text-sm">
       <nav className="space-y-2">
         {navItems.map((item) => (
           <Link
             key={item.label}
-            href="/"
+            href={
+              item.label === "Dashboard" ? "/" : `/${item.label.toLowerCase()}`
+            }
             className="group flex items-center justify-between px-3 py-2 hover:bg-[#FFFFFF] hover:text-[#5A607F] rounded-md font-medium"
           >
             <div className="flex items-center gap-3">

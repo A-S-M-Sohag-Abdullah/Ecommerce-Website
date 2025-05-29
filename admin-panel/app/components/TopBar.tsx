@@ -13,7 +13,7 @@ export default function TopBar() {
       <div className="flex space-x-7 items-center">
         <Image width={30} height={30} src="/chat.svg" alt="chat" />
         <div className="relative">
-          <span className="size-4 font-semibold text-sm flex items-center justify-center bg-blue-600 rounded-full absolute top-[-5px] right-[-5px]">5</span>
+          <span className="size-4 font-semibold text-xs flex items-center justify-center bg-blue-600 rounded-full absolute top-[-5px] right-[-5px]">5</span>
           <Image width={20} height={20} src="/notification.svg" alt="chat" />
         </div>
 
