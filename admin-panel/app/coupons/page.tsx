@@ -1,51 +1,62 @@
 "use client";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDown,
   faArrowLeft,
   faArrowRight,
+  faBagShopping,
   faCheck,
   faMagnifyingGlass,
+  faMoneyBill,
   faPlus,
+  faTag,
+  faTruck,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import { stat } from "fs";
 import { useState } from "react";
 
-const Orders = [
-  {
-    id: 1,
-    orderId: "#12512B",
-    name: "Men Grey Hoodie",
-    date: "May 5, 4:20 PM",
-    customer: "Tom Anderson",
-    paymentStatus: "Paid",
-    orderStatus: "Ready",
-    total: "$49.90",
-  },
-  {
-    id: 2,
-    orderId: "#12523C",
-    name: "Men Grey Hoodie",
-    date: "May 5, 4:20 PM",
-    customer: "Tom Anderson",
-    paymentStatus: "Paid",
-    orderStatus: "Received",
-    total: "$4.90",
-  },
-  {
-    id: 3,
-    orderId: "#12512B",
-    name: "Men Grey Hoodie",
-    date: "May 5, 4:20 PM",
-    customer: "Jayden Walker",
-    paymentStatus: "Pending",
-    orderStatus: "Shipped",
-    total: "$9.90",
-  },
-];
+function Copupns() {
+  // Sample categories data
+  const Coupons = [
+    {
+      id: 1,
+      name: "Summer discount 10% off",
+      code: "Summer2020",
+      type: 1,
+      usage: 12,
+      status: "Active",
+      date: "May 5, 2020 - May 5, 2021",
+    },
+    {
+      id: 2,
+      name: "Free shipping on all items",
+      code: "Shipfreetomee15",
+      type: 2,
+      usage: 12,
+      status: "Active",
+      date: "May 5, 2020 - May 5, 2021",
+    },
+    {
+      id: 3,
+      name: "Discount for women clothes",
+      code: "Womenclothing5",
+      type: 3,
+      usage: 12,
+      status: "Expired",
+      date: "May 5, 2020 - May 5, 2021",
+    },
+    {
+      id: 4,
+      name: "Discount for women clothes 10Tk",
+      code: "Womenclothing10",
+      type: 4,
+      usage: 12,
+      status: "Active",
+      date: "May 5, 2020 - May 5, 2021",
+    },
+  ];
 
-export default function ProductTable() {
   const [selected, setSelected] = useState<number[]>([]);
 
   const toggleSelected = (id: number) => {
@@ -54,24 +65,33 @@ export default function ProductTable() {
     );
   };
 
-  const allSelected = selected.length === Orders.length;
+  const allSelected = selected.length === Coupons.length;
 
   return (
-    <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full ">
-      {/* Header */}
+    <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full">
+      {" "}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-3xl font-semibold">Orders</h2>
+        <h2 className="text-3xl font-semibold">Categories</h2>
         <div className="flex gap-2">
-          <button className="px-6 py-1 border border-gray-300 rounded hover:bg-gray-100 text-blue-600 bg-white text-lg">
-            Export
-          </button>
-          <button className="px-6 py-1 bg-[#1E5EFF] text-white rounded hover:bg-blue-700 text-lg flex items-center gap-2">
-            <FontAwesomeIcon icon={faPlus} /> Add Orders
+          <button className="px-6 py-2 bg-[#1E5EFF] text-white rounded hover:bg-blue-700 text-lg flex items-center gap-2">
+            <FontAwesomeIcon icon={faPlus} className="text-sm w-5" /> Add
+            Category
           </button>
         </div>
       </div>
-
       <div className="bg-white p-6 rounded-lg shadow-md">
+        {/* table nav */}
+        <div className="flex items-center space-x-3 font-semibold mb-4">
+          <button className="text-gray-400  hover:text-blue-600">
+            All Customers
+          </button>
+          <button className="text-gray-400 hover:text-blue-600">
+            Active Coupons
+          </button>
+          <button className="text-gray-400 hover:text-blue-600">
+            Expired Coupons
+          </button>
+        </div>
         {/* Filter/Search */}
         <div className="flex gap-2 mb-4">
           <button className="px-3 py-1 w-32 border border-gray-300 rounded hover:bg-gray-100 flex items-center justify-between text-gray-500">
@@ -113,7 +133,7 @@ export default function ProductTable() {
               <th className="px-4 py-2">
                 <span
                   onClick={() =>
-                    setSelected(allSelected ? [] : Orders.map((p) => p.id))
+                    setSelected(allSelected ? [] : Coupons.map((p) => p.id))
                   }
                   className={`w-7 h-7 flex items-center justify-center border rounded cursor-pointer transition-all duration-200 ${
                     allSelected
@@ -126,68 +146,73 @@ export default function ProductTable() {
                   )}
                 </span>
               </th>
-              <th className="px-4 py-2">Order</th>
-              <th className="px-4 py-2">Date</th>
-              <th className="px-4 py-2">Customer</th>
-              <th className="px-4 py-2">Payment status</th>
-              <th className="px-4 py-2">Order Status</th>
-              <th className="px-4 py-2">Total</th>
+              <th className="px-4 py-2 ">Name</th>
+              <th className="px-4 py-2 ">Usage</th>
+              <th className="px-4 py-2 ">Status</th>
+              <th className="px-4 py-2 ">Data</th>
             </tr>
           </thead>
           <tbody className="text-gray-800">
-            {Orders.map((order) => (
+            {Coupons.map((coupon) => (
               <tr
-                key={order.id}
+                key={coupon.id}
                 className="border-t border-gray-100 hover:bg-gray-50"
               >
                 <td className="px-4 py-2">
                   <span
-                    onClick={() => toggleSelected(order.id)}
+                    onClick={() => toggleSelected(coupon.id)}
                     className={`w-7 h-7 flex items-center justify-center border rounded cursor-pointer transition-all duration-200 ${
-                      selected.includes(order.id)
+                      selected.includes(coupon.id)
                         ? "bg-blue-600 border-blue-600 text-white"
                         : "border-gray-300 bg-white"
                     }`}
                   >
-                    {selected.includes(order.id) && (
+                    {selected.includes(coupon.id) && (
                       <FontAwesomeIcon icon={faCheck} className="text-lg" />
                     )}
                   </span>
                 </td>
-                <td className="px-4 py-2 flex items-center gap-3">
-                  <div>
-                    <div className="font-medium">{order.orderId}</div>
+
+                <td className="px-4 py-2  flex items-center">
+                  {coupon.type === 1 && (
+                    <div className="w-10 h-10 mr-2 flex items-center justify-center text-white bg-blue-600 rounded-sm text-xl">
+                      <FontAwesomeIcon icon={faMoneyBill} />
+                    </div>
+                  )}
+                  {coupon.type === 2 && (
+                    <div className="w-10 h-10 mr-2 flex items-center justify-center text-white bg-gray-600 rounded-sm text-xl">
+                      <FontAwesomeIcon icon={faBagShopping} />
+                    </div>
+                  )}
+                  {coupon.type === 3 && (
+                    <div className="w-10 h-10 mr-2 flex items-center justify-center text-white bg-green-600 rounded-sm text-xl">
+                      <FontAwesomeIcon icon={faTruck} />
+                    </div>
+                  )}
+                  {coupon.type === 4 && (
+                    <div className="w-10 h-10 mr-2 flex items-center justify-center text-white bg-yellow-600 rounded-sm text-xl">
+                      <FontAwesomeIcon icon={faTag} />
+                    </div>
+                  )}
+
+                  <div className="flex flex-col">
+                    <span className="font-medium">{coupon.name}</span>
+                    <span className="text-xs text-gray-400">{coupon.code}</span>
                   </div>
                 </td>
-                <td className="px-4 py-2">{order.date}</td>
-                <td className="px-4 py-2">{order.customer}</td>
-                <td className="px-4 py-2">
-                  {order.paymentStatus === "Paid" ? (
-                    <span className="bg-green-200 text-green-700 py-1 px-2 rounded-sm">
-                      {order.paymentStatus}
+                <td className="px-4 py-2 ">{coupon.usage}</td>
+                <td className="px-4 py-2 ">
+                  {coupon.status === "Active" ? (
+                    <span className="bg-green-200 text-green-600 px-2 py-1 rounded">
+                      {coupon.status}
                     </span>
                   ) : (
-                    <span className="bg-gray-300 text-gray-600 py-1 px-2 rounded-sm">
-                      {order.paymentStatus}
+                    <span className="bg-gray-200 text-gray-600 px-2 py-1 rounded">
+                      {coupon.status}
                     </span>
                   )}
                 </td>
-                <td className="px-4 py-2">
-                  {order.orderStatus === "Ready" ? (
-                    <span className="bg-orange-400 text-white py-1 px-2 rounded-sm">
-                      {order.orderStatus}
-                    </span>
-                  ) : order.orderStatus === "Shipped" ? (
-                    <span className="bg-gray-700 text-white py-1 px-2 rounded-sm">
-                      {order.orderStatus}
-                    </span>
-                  ) : (
-                    <span className="bg-blue-700 text-white py-1 px-2 rounded-sm">
-                      {order.orderStatus}
-                    </span>
-                  )}
-                </td>
-                <td className="px-4 py-2">{order.total}</td>
+                <td className="px-4 py-2 ">{coupon.date}</td>
               </tr>
             ))}
           </tbody>
@@ -219,3 +244,5 @@ export default function ProductTable() {
     </div>
   );
 }
+
+export default Copupns;

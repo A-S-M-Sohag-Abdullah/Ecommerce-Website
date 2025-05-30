@@ -18,7 +18,7 @@ const transactions = [
 
 export default function RecentTransactions() {
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-3">
+    <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-3 w-1/2">
       <h2 className="text-lg font-semibold mb-2">Recent Transactions</h2>
       <div className="space-y-2">
         <table className="min-w-full border border-gray-700 rounded-lg overflow-hidden text-sm ">

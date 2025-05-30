@@ -1,5 +1,5 @@
 const products = [
-  { name: "Men Grey Hoodie", units: 204, price: "$140" },
+  { name: "Men Grey Hoodies", units: 204, price: "$140" },
   { name: "Women Striped T-Shirt", units: 204, price: "$120" },
   { name: "Men Black T-Shirt", units: 204, price: "$110" },
   { name: "Women White T-Shirt", units: 204, price: "$130" },
@@ -8,7 +8,7 @@ const products = [
 
 export default function TopProducts() {
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-3">
+    <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-3 w-1/2 h-full">
       <h2 className="text-lg font-semibold mb-2">Top Products by Units Sold</h2>
       <table className="w-full text-sm">
         <thead>

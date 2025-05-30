@@ -16,10 +16,8 @@ export default function Dashboard() {
           <Last7DaysSales />
         </div>
       </div>
-      <div className="w-1/2 px-6">
+      <div className="w-full flex px-6 space-x-5">
         <RecentTransactions />
-      </div>
-      <div className="w-1/2 px-6">
         <TopProducts />
       </div>
     </>
