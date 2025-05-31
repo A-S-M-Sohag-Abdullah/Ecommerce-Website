@@ -242,9 +242,17 @@ export default function AddProductPage() {
               <input
                 type="text"
                 placeholder="Price on Discount"
+                disabled={true}
                 className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
               />
             </div>
+            <h2 className="text-lg font-medium">Stock</h2>
+            <input
+                type="number"
+                placeholder="Stock Quantity"
+                min={0}
+                className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+              />
             <div className="flex items-center space-x-3">
               <label
                 htmlFor="sale-switch"
@@ -305,7 +313,9 @@ export default function AddProductPage() {
                         onClick={() => handleRemoveVariant(variant.id)}
                         className="col-span-2 text-end right-2 text-red-600 text-sm hover:cursor-pointer"
                       >
-                        <span className="px-2 py-1 rounded-sm bg-red-100 ">✕ Remove</span>
+                        <span className="px-2 py-1 rounded-sm bg-red-100 ">
+                          ✕ Remove
+                        </span>
                       </button>
                     )}
 
