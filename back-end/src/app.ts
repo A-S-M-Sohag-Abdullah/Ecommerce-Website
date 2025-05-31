@@ -9,8 +9,19 @@ import couponRoutes from "./routes/coupon.routes";
 import contactRoutes from "./routes/contact.routes";
 import paymentRoutes from "./routes/payment.routes";
 import { FRONTEND_URL } from "./config/env";
+import adminAuthRoutes from "./routes/admin/admin.auth.routes";
+import adminProductRoutes from "./routes/admin/admin.product.routes";
 import "./config/passport";
 import cookieParser from "cookie-parser";
+
+import fs from "fs";
+import path from "path";
+
+// Create public/uploads directory if it doesn't exist
+const uploadPath = path.join(__dirname,  "public", "uploads");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
 
 const app = express();
 app.use(cookieParser());
@@ -22,7 +33,14 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+/* app.use(cors()); */
 app.use(express.json());
+
+
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "public", "uploads"))
+);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
@@ -31,6 +49,9 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/admin/auth", adminAuthRoutes);
+app.use("/api/admin/products", adminProductRoutes);
+
 app.use(errorHandler);
 
 export default app;

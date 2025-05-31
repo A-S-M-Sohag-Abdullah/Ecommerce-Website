@@ -4,9 +4,11 @@ export interface IProduct extends Document {
   name: string;
   price: number;
   description: string;
-  image: string;
+  images: string[];
   countInStock: number;
   category: string;
+  color?: string[];
+  size?: string[];
   rating: {
     rate: number;
     count: number;
@@ -17,9 +19,11 @@ const productSchema = new Schema<IProduct>({
   name: { type: String, required: true },
   price: { type: Number, required: true },
   description: { type: String },
-  image: { type: String, required: true },
+  images: { type: [String], default: [] },
   countInStock: { type: Number, default: 0 },
   category: { type: String },
+  color: { type: [String], default: [] },
+  size: { type: [String], default: [] },
   rating: {
     rate: { type: Number, default: 0 },
     count: { type: Number, default: 0 },

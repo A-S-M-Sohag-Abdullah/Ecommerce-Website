@@ -10,6 +10,7 @@ export interface IUser extends Document {
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
   isGoogle?: boolean;
+  isAdmin?: boolean;
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -22,6 +23,10 @@ const userSchema = new Schema<IUser>({
   isGoogle: { type: Boolean, default: false },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword: string) {
