@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../../app/globals.css";
 import TopBar from "../components/TopBar";
 import Sidebar from "../components/Sidebar";
+import ReduxProvider from "../providers/ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,18 +25,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  
-
   return (
     <html lang="en" data-arp="">
       <body>
         <main>
-          <TopBar />
-          <div className="flex flex-wrap">
-            <Sidebar />
-            <main className="max-w-4/5 flex w-4/5 flex-wrap">{children}</main>
-          </div>
+          <ReduxProvider>
+            <TopBar />
+            <div className="flex flex-wrap">
+              <Sidebar />
+              <main className="max-w-4/5 flex w-4/5 flex-wrap">{children}</main>
+            </div>
+          </ReduxProvider>
         </main>
       </body>
     </html>

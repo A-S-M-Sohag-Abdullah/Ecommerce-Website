@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axiosInstance";
 
 export const addProduct = async (productData: FormData) => {
   try {
-    const res = await axiosInstance.post("/api/admin/products", productData, {
+    const res = await axiosInstance.post("/api/admin/products/add", productData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

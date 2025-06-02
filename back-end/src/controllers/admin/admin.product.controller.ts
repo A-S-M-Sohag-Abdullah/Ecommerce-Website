@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import Product from "../../models/product.model";
 
 export const addProduct = async (req: Request, res: Response) => {
+  console.log("Adding product with body:", req.body);
+  console.log("Files received:", req.files);
   try {
     const {
       name,
@@ -33,7 +35,7 @@ export const addProduct = async (req: Request, res: Response) => {
     });
 
     const savedProduct = await product.save();
-    res.status(201).json(savedProduct);
+    res.status(201).json({ success: true, product: savedProduct });
   } catch (err) {
     console.error("Add product error:", err);
     res.status(500).json({ message: "Server error adding product" });
