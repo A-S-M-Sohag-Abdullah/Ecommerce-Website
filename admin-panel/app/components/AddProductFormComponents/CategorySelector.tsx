@@ -12,7 +12,7 @@ function CategorySelector() {
     <div className="space-y-2">
       <h2 className="text-lg font-medium">Categories</h2>
       <div className="space-y-2">
-        {["Women", "Men", "T-shirt", "Hoodie", "Dress"].map((c) => (
+        {["Women", "Men", "T-shirt", "Hoodie", "Dress","Technology"].map((c) => (
           <label key={c} className="block">
             <input
               type="radio"

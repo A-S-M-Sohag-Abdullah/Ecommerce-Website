@@ -4,7 +4,7 @@ import DifferentOptions from "@/app/components/AddProductFormComponents/Differen
 import { FileDropzone } from "@/app/components/AddProductFormComponents/FileDropZone";
 import TagInput from "@/app/components/AddProductFormComponents/TagInput";
 import { RootState } from "@/store/store";
-import React from "react";
+import React, { use, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setTitle,
@@ -13,8 +13,10 @@ import {
   setDiscountPrice,
   setStock,
   setIsOnSale,
+  resetProductState,
 } from "@/features/product/productSlice";
 import { addProduct } from "@/api/productApi";
+import { toast } from "react-toastify";
 
 export default function AddProductPage() {
   const dispatch = useDispatch();
@@ -28,6 +30,7 @@ export default function AddProductPage() {
     tags,
     files,
     category,
+    variants,
   } = useSelector((state: RootState) => state.product);
 
   const handleFormSubmit = async () => {
@@ -41,12 +44,33 @@ export default function AddProductPage() {
       files.forEach((file) => {
         formData.append("images", file); // Append each file to the FormData
       });
+      tags.forEach((tag) => {
+        formData.append("tags", tag); // Append each tag to the FormData
+      });
+      const SizeVariant = variants.find((user) => user.type === "Size");
+      const ColorVariant = variants.find((user) => user.type === "Color");
+      if (SizeVariant?.sizes && SizeVariant.sizes.length > 0) {
+        SizeVariant.sizes.forEach((size) => {
+          formData.append("size", size); // Append each size to the FormData
+        });
+      }
+
+      if (ColorVariant?.colors && ColorVariant.colors.length > 0) {
+        ColorVariant.colors.forEach((color) => {
+          formData.append("color", color); // Append each color to the FormData
+        });
+      }
+
       const response = await addProduct(formData);
-      if (response.success)
-        console.log("Product added successfully:", response);
+      if (response.success) {
+        toast.success("Product added successfully!");
+        dispatch(resetProductState());
+      }
     } catch (error) {}
   };
-
+  useEffect(() => {
+    toast("Add product page loaded successfully!");
+  }, []);
   return (
     <div className="p-6 w-full mx-auto space-y-6 bg-gray-100">
       <div className="flex justify-between items-center">

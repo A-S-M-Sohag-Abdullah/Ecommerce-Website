@@ -14,6 +14,7 @@ export const addProduct = async (req: Request, res: Response) => {
       countInStock,
       color,
       size,
+      tags,
     } = req.body;
 
     const imagePaths = req.files
@@ -30,8 +31,9 @@ export const addProduct = async (req: Request, res: Response) => {
       category,
       countInStock,
       images: imagePaths,
-      color: color ? color.split(",") : [], // Convert comma-separated string to array
-      size: size ? size.split(",") : [], // Convert comma-separated string to array
+      color: color , // Convert comma-separated string to array
+      size: size , // Convert comma-separated string to array
+      tags: tags, // Convert comma-separated string to array
     });
 
     const savedProduct = await product.save();

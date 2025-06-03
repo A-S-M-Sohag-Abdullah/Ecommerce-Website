@@ -2,12 +2,16 @@ import axiosInstance from "@/lib/axiosInstance";
 
 export const addProduct = async (productData: FormData) => {
   try {
-    const res = await axiosInstance.post("/api/admin/products/add", productData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials: true,
-    });
+    const res = await axiosInstance.post(
+      "/api/admin/products/add",
+      productData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      }
+    );
     console.log("Product added successfully:", res.data);
     return res.data;
   } catch (error) {
@@ -15,9 +19,9 @@ export const addProduct = async (productData: FormData) => {
     throw error;
   }
 };
-export const getProducts = async (page: number, limit: number) => {
+export const getProducts = async (page: number, limit: number = 10) => {
   try {
-    const res = await axiosInstance.get("/api/admin/products", {
+    const res = await axiosInstance.get("/api/products/", {
       params: { page, limit },
       withCredentials: true,
     });

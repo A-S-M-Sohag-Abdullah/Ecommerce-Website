@@ -2,8 +2,19 @@ import { Request, Response } from "express";
 import Product from "../models/product.model";
 
 export const getProducts = async (req: Request, res: Response) => {
-  const products = await Product.find();
-  res.json(products);
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
+
+  const products = await Product.find().skip(skip).limit(limit);
+  const total = await Product.countDocuments();
+
+  res.json({
+    products,
+    currentPage: page,
+    totalPages: Math.ceil(total / limit),
+    total: total,
+  });
 };
 
 export const getProductById = async (req: Request, res: Response) => {

@@ -3,7 +3,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const uploadPath = path.join(__dirname, "public", "uploads");
+const uploadPath = path.join(__dirname, "..", "public", "uploads");
 
 // Ensure directory exists
 if (!fs.existsSync(uploadPath)) {
