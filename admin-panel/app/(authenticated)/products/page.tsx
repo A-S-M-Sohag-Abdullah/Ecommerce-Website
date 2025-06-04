@@ -1,5 +1,6 @@
 import { getProducts } from "@/api/productApi";
-import ProductTableBody from "@/app/components/ProductTable";
+import ProductTable from "@/app/components/Tables/ProductTable";
+import getPageNumbers from "@/lib/getPageNumbers";
 import {
   faAngleDown,
   faArrowLeft,
@@ -14,33 +15,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  searchParams: {
-    page?: string;
-  };
+  searchParams: { [key: string]: string };
 };
-export default async function ProductTable({ searchParams }: Props) {
-  const page = searchParams.page || "1";
+export default async function ProductsPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const page = params.page || 1;
 
   const { products, total, totalPages } = await getProducts(Number(page));
-  console.log(products);
-
-  function getPageNumbers(currentPage: number, totalPages: number): number[] {
-    const maxVisiblePages = 5;
-
-    if (totalPages <= maxVisiblePages) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
-
-    if (currentPage <= 3) {
-      return [1, 2, 3, 4, 5];
-    }
-
-    if (currentPage >= totalPages - 2) {
-      return Array.from({ length: 5 }, (_, i) => totalPages - 4 + i);
-    }
-
-    return Array.from({ length: 5 }, (_, i) => currentPage - 2 + i);
-  }
 
   const visiblePages = getPageNumbers(Number(page), totalPages);
 
@@ -64,13 +45,13 @@ export default async function ProductTable({ searchParams }: Props) {
 
       <div className="bg-white p-6 rounded-lg shadow-md">
         {/* Table */}
-        <ProductTableBody products={products} />
+        <ProductTable products={products} />
 
         {/* Pagination */}
         <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
           <div className="flex items-center gap-5">
             <button className="px-2 py-1  rounded" disabled>
-              {page > "1" && (
+              {Number(page) > 1 && (
                 <Link href={`/products?page=${Number(page) - 1}`}>
                   <FontAwesomeIcon icon={faArrowLeft} className="w-4" />
                 </Link>

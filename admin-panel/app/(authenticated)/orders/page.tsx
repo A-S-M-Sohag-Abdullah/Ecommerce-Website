@@ -1,5 +1,6 @@
-"use client";
-
+import { getOrders } from "@/api/orderApi";
+import Ordertable from "@/app/components/Tables/Ordertable";
+import getPageNumbers from "@/lib/getPageNumbers";
 import {
   faAngleDown,
   faArrowLeft,
@@ -10,51 +11,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
-const Orders = [
-  {
-    id: 1,
-    orderId: "#12512B",
-    name: "Men Grey Hoodie",
-    date: "May 5, 4:20 PM",
-    customer: "Tom Anderson",
-    paymentStatus: "Paid",
-    orderStatus: "Ready",
-    total: "$49.90",
-  },
-  {
-    id: 2,
-    orderId: "#12523C",
-    name: "Men Grey Hoodie",
-    date: "May 5, 4:20 PM",
-    customer: "Tom Anderson",
-    paymentStatus: "Paid",
-    orderStatus: "Received",
-    total: "$4.90",
-  },
-  {
-    id: 3,
-    orderId: "#12512B",
-    name: "Men Grey Hoodie",
-    date: "May 5, 4:20 PM",
-    customer: "Jayden Walker",
-    paymentStatus: "Pending",
-    orderStatus: "Shipped",
-    total: "$9.90",
-  },
-];
+type Props = {
+  searchParams: { [key: string]: string };
+};
 
-export default function ProductTable() {
-  const [selected, setSelected] = useState<number[]>([]);
+export default async function OrderPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const page =  params.page || 1;
+  const { orders, total, totalPages } = await getOrders(Number(page));
 
-  const toggleSelected = (id: number) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
-    );
-  };
-
-  const allSelected = selected.length === Orders.length;
+  const visiblePages = getPageNumbers(Number(page), totalPages);
 
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full ">
@@ -66,14 +35,14 @@ export default function ProductTable() {
             Export
           </button>
           <button className="px-6 py-1 bg-[#1E5EFF] text-white rounded hover:bg-blue-700 text-lg flex items-center gap-2">
-            <FontAwesomeIcon icon={faPlus} /> Add Orders
+            <FontAwesomeIcon icon={faPlus} className="w-4"/> Add Orders
           </button>
         </div>
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md">
         {/* Filter/Search */}
-        <div className="flex gap-2 mb-4">
+        {/* <div className="flex gap-2 mb-4">
           <button className="px-3 py-1 w-32 border border-gray-300 rounded hover:bg-gray-100 flex items-center justify-between text-gray-500">
             Filter <FontAwesomeIcon icon={faAngleDown} />
           </button>
@@ -104,10 +73,10 @@ export default function ProductTable() {
               />
             </button>
           </div>
-        </div>
+        </div> */}
 
         {/* Table */}
-        <table className="min-w-full text-md text-left border border-gray-200 rounded-md overflow-hidden">
+        {/* <table className="min-w-full text-md text-left border border-gray-200 rounded-md overflow-hidden">
           <thead className=" text-gray-400">
             <tr>
               <th className="px-4 py-2">
@@ -191,29 +160,43 @@ export default function ProductTable() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
+
+        <Ordertable orders={orders} />
 
         {/* Pagination */}
         <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
           <div className="flex items-center gap-5">
             <button className="px-2 py-1  rounded" disabled>
-              <FontAwesomeIcon icon={faArrowLeft} />
+              {Number(page) > 1 && (
+                <Link href={`/orders?page=${Number(page) - 1}`}>
+                  <FontAwesomeIcon icon={faArrowLeft} className="w-4" />
+                </Link>
+              )}
             </button>
-            {[1, 2, 3, 4, 5].map((n) => (
-              <button
+            {visiblePages.map((n) => (
+              <Link
                 key={n}
+                href={`/orders?page=${n}`}
                 className={`size-9 flex items-center justify-center text-lg  rounded ${
-                  n === 1 ? "bg-[#ECF2FF] text-[#1E5EFF]" : "hover:bg-gray-100"
+                  n === Number(page)
+                    ? "bg-[#ECF2FF] text-[#1E5EFF]"
+                    : "hover:bg-gray-100"
                 }`}
               >
                 {n}
-              </button>
+              </Link>
             ))}
-            <button className="px-2 py-1  rounded">
-              <FontAwesomeIcon icon={faArrowRight} />
-            </button>
+         
+            {page < totalPages && (
+              <button className="px-2 py-1  rounded">
+                <Link href={`/orders?page=${Number(page) + 1}`}>
+                  <FontAwesomeIcon icon={faArrowRight} className="w-4" />
+                </Link>
+              </button>
+            )}
           </div>
-          <div>146 Results</div>
+          <div>{total} Results</div>
         </div>
       </div>
     </div>

@@ -25,10 +25,24 @@ export const getProducts = async (page: number, limit: number = 10) => {
       params: { page, limit },
       withCredentials: true,
     });
-    console.log("Fetched products:", res.data);
+
     return res.data;
   } catch (error) {
     console.error("Error fetching products:", error);
+    throw error;
+  }
+};
+
+export const getTopProducts = async (page: number = 1, limit: number = 5) => {
+  try {
+    const res = await axiosInstance.get("/api/admin/products/topProducts", {
+      params: { page, limit },
+      withCredentials: true,
+    });
+    console.log("Top Products fetched successfully:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching top products:", error);
     throw error;
   }
 };

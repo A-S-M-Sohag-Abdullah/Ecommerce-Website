@@ -35,7 +35,7 @@ function CustomerByMap() {
     fillOpacity: 1,
     stroke: "gray",
     strokeWidth: 1,
-    strokeOpacity: 0.2,
+    strokeOpacity: 0.5,
     cursor: "pointer",
   });
   return (
@@ -43,17 +43,19 @@ function CustomerByMap() {
       <h2 className="text-lg font-semibold mb-4">Customer Demographics</h2>
       <div className="flex space-x-6">
         <div className="flex flex-col gap-4">
-          {data.map(({ name, value, color }) => (
-            <div key={name} className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <div className={`w-4 h-4 ${color} rounded-sm`} />
-                <span className="text-sm font-medium">{name}</span>
+          {data
+            .sort((a, b) => b.value - a.value)
+            .map(({ name, value, color }) => (
+              <div key={name} className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <div className={`w-4 h-4 ${color} rounded-sm shrink-0`} />
+                  <span className="text-sm font-medium">{name}</span>
+                </div>
+                <div className="text-black font-bold text-base pl-6">
+                  {value.toLocaleString()}
+                </div>
               </div>
-              <div className="text-black font-bold text-base pl-6">
-                {value.toLocaleString()}
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
         <WorldMap
           color="red"

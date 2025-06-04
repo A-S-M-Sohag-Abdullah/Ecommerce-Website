@@ -1,5 +1,8 @@
 import express from "express";
-import { addProduct } from "../../controllers/admin/admin.product.controller";
+import {
+  addProduct,
+  getTopProducts,
+} from "../../controllers/admin/admin.product.controller";
 import { upload } from "../../middlewares/upload.middlware";
 import { isAdmin } from "../../middlewares/isAdmin.middleware";
 
@@ -11,5 +14,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/add", upload.array("images", 5), addProduct);
+
+router.get("/topProducts", getTopProducts);
 
 export default router;

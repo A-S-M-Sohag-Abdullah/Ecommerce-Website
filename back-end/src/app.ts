@@ -13,12 +13,14 @@ import adminAuthRoutes from "./routes/admin/admin.auth.routes";
 import adminProductRoutes from "./routes/admin/admin.product.routes";
 import "./config/passport";
 import cookieParser from "cookie-parser";
+import adminOrderRoutes from "./routes/admin/admin.order.routes";
+import adminCustomerRoutes from "./routes/admin/admin.customer.routes";
 
 import fs from "fs";
 import path from "path";
 
 // Create public/uploads directory if it doesn't exist
-const uploadPath = path.join(__dirname,  "public", "uploads");
+const uploadPath = path.join(__dirname, "public", "uploads");
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath, { recursive: true });
 }
@@ -36,11 +38,7 @@ app.use(
 /* app.use(cors()); */
 app.use(express.json());
 
-
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "public", "uploads"))
-);
+app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
@@ -51,6 +49,8 @@ app.use("/api/coupons", couponRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/admin/auth", adminAuthRoutes);
 app.use("/api/admin/products", adminProductRoutes);
+app.use("/api/admin/orders", adminOrderRoutes);
+app.use("/api/admin/customers", adminCustomerRoutes); // Assuming you have admin user routes
 
 app.use(errorHandler);
 

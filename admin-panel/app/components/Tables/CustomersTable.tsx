@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import {
   faAngleDown,
   faCheck,
@@ -7,28 +6,21 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
-type Product = {
-  _id: string;
+type Customer = {
+  userId: string;
+  totalSpent: string;
   name: string;
-  price: number;
-  description: string;
-  images: string[];
-  countInStock: number;
-  category: string;
-  color?: string[];
-  size?: string[];
-  tags?: string[];
-  rating: {
-    rate: number;
-    count: number;
-  };
+  totalOrders: number;
+  avatar?: string;
 };
 
 type Props = {
-  products: Product[];
+  customers: Customer[];
 };
-const ProductTableBody: React.FC<Props> = ({ products }) => {
+
+const CustomersTable: React.FC<Props> = ({ customers }) => {
   const [selected, setSelected] = useState<string[]>([]);
 
   const toggleSelected = (id: string) => {
@@ -37,15 +29,36 @@ const ProductTableBody: React.FC<Props> = ({ products }) => {
     );
   };
 
-  const allSelected = selected.length === products.length;
+  useEffect(() => {
+    setSelected([]);
+  }, [customers]);
+
+  const allSelected = selected.length === customers.length;
+
   return (
     <>
+      {/* table nav */}
+      <div className="flex items-center space-x-3 font-semibold mb-4">
+        <button className="text-gray-400  hover:text-blue-600">
+          All Customers
+        </button>
+        <button className="text-gray-400 hover:text-blue-600">
+          New Customers
+        </button>
+        <button className="text-gray-400 hover:text-blue-600">
+          Returning Customers
+        </button>
+        <button className="text-gray-400 hover:text-blue-600">
+          Inactive Customers
+        </button>
+      </div>
+      {/* Filter/Search */}
       <div className="flex gap-2 mb-4">
         <button className="px-3 py-1 w-32 border border-gray-300 rounded hover:bg-gray-100 flex items-center justify-between text-gray-500">
-          Filter <FontAwesomeIcon icon={faAngleDown} className="w-4" />
+          Filter <FontAwesomeIcon icon={faAngleDown} />
         </button>
         <div className="px-4 py-1 border border-gray-300 rounded w-72 flex items-center gap-2 text-gray-500">
-          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-4" />
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
           <input type="text" placeholder="Search..." className=" outline-0 " />
         </div>
 
@@ -63,13 +76,14 @@ const ProductTableBody: React.FC<Props> = ({ products }) => {
           </button>
         </div>
       </div>
-      <table className="min-w-full text-sm text-left border border-gray-200 rounded-md overflow-hidden">
-        <thead className=" text-gray-700">
+
+      <table className="min-w-full text-md text-left border border-gray-200 rounded-md overflow-hidden">
+        <thead className=" text-gray-400">
           <tr>
             <th className="px-4 py-2">
               <span
                 onClick={() =>
-                  setSelected(allSelected ? [] : products.map((p) => p._id))
+                  setSelected(allSelected ? [] : customers.map((p) => p.userId))
                 }
                 className={`w-7 h-7 flex items-center justify-center border rounded cursor-pointer transition-all duration-200 ${
                   allSelected
@@ -82,58 +96,50 @@ const ProductTableBody: React.FC<Props> = ({ products }) => {
                 )}
               </span>
             </th>
-            <th className="px-4 py-2">Product</th>
-            <th className="px-4 py-2">Inventory</th>
-            <th className="px-4 py-2">Color</th>
-            <th className="px-4 py-2">Price</th>
-            <th className="px-4 py-2">Rating</th>
+            <th className="px-4 py-2 w-2/4">Name</th>
+            <th className="px-4 py-2 w-1/4">Orders</th>
+            <th className="px-4 py-2 w-1/4">Spent</th>
           </tr>
         </thead>
         <tbody className="text-gray-800">
-          {products.map((product) => (
+          {customers.map((customer) => (
             <tr
-              key={product._id}
+              key={customer.userId}
               className="border-t border-gray-100 hover:bg-gray-50"
             >
               <td className="px-4 py-2">
                 <span
-                  onClick={() => toggleSelected(product._id)}
+                  onClick={() => toggleSelected(customer.userId)}
                   className={`w-7 h-7 flex items-center justify-center border rounded cursor-pointer transition-all duration-200 ${
-                    selected.includes(product._id)
+                    selected.includes(customer.userId)
                       ? "bg-blue-600 border-blue-600 text-white"
                       : "border-gray-300 bg-white"
                   }`}
                 >
-                  {selected.includes(product._id) && (
+                  {selected.includes(customer.userId) && (
                     <FontAwesomeIcon icon={faCheck} className="text-lg" />
                   )}
                 </span>
               </td>
-              <td className="px-4 py-2 flex items-center gap-3">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="w-10 h-10 rounded object-cover "
-                />
-                <div>
-                  <div className="font-medium">{product.name}</div>
-                  <div className="text-xs text-gray-500">
-                    {product.description.split(" ").slice(0, 10).join(" ")}...
-                  </div>
-                </div>
-              </td>
-              <td className="px-4 py-2">
-                {product.countInStock ? (
-                  product.countInStock
+
+              <td className="px-4 py-2 w-2/4 flex items-center">
+                {customer.avatar ? (
+                  <Image
+                    width={48}
+                    height={48}
+                    src={customer.avatar}
+                    alt="Customer Image"
+                    className="inline-block mr-2 rounded-full shadow-md border border-blue-600"
+                  />
                 ) : (
-                  <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-500 rounded">
-                    Out of Stock
+                  <span className="mr-2 flex items-center justify-center w-12 h-12 bg-gray-400 rounded-full font-bold text-white text-xl">
+                    {customer.name[0].toUpperCase()}
                   </span>
                 )}
+                {customer.name}
               </td>
-              <td className="px-4 py-2">{product.color}</td>
-              <td className="px-4 py-2">{product.price}</td>
-              <td className="px-4 py-2">{product.rating.rate}</td>
+              <td className="px-4 py-2 w-1/4">{customer.totalOrders}</td>
+              <td className="px-4 py-2 w-1/4">{customer.totalSpent}</td>
             </tr>
           ))}
         </tbody>
@@ -142,4 +148,4 @@ const ProductTableBody: React.FC<Props> = ({ products }) => {
   );
 };
 
-export default ProductTableBody;
+export default CustomersTable;

@@ -1,13 +1,13 @@
 import React from "react";
-import CustomersBarChart from "../../components/CustomerBarChart";
-import SummaryCard from "../../components/SummaryCard";
-import DonutChart from "../../components/DonutChart";
-import AverageOrderLineChart from "../../components/AverageOrderLineChart";
-import CustomerByMap from "../../components/CustomerByMap";
-import AgeDistribution from "../../components/AgeDistributionChart";
-import TopCustomers from "../../components/TopCustomers";
-import TopProducts from "../../components/TopProducts";
-import StoreFunnelChart from "../../components/StoreFunnelChart";
+import CustomersBarChart from "../../components/Charts&Maps/CustomerBarChart";
+import SummaryCard from "../../components/Others/SummaryCard";
+import DonutChart from "../../components/Charts&Maps/DonutChart";
+import AverageOrderLineChart from "../../components/Charts&Maps/AverageOrderLineChart";
+import CustomerByMap from "../../components/Charts&Maps/CustomerByMap";
+import AgeDistribution from "../../components/Charts&Maps/AgeDistributionChart";
+import TopCustomers from "../../components/Tables/TopCustomers";
+import TopProducts from "../../components/Tables/TopProducts";
+import StoreFunnelChart from "../../components/Charts&Maps/StoreFunnelChart";
 
 function Reports() {
   return (

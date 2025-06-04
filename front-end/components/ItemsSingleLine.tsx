@@ -21,6 +21,7 @@ const ItemsSingleLine = async () => {
   const products: Product[] = await getProducts();
   console.log(products);
   return (
+    
     <section>
       <div className="container mx-auto my-5 ">
         <div className="grid space-x-10 flex-wrap space-y-4 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6">

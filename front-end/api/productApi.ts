@@ -20,7 +20,7 @@ export const getProducts = async (): Promise<Product[]> => {
     const res = await axiosInstance.get(`/api/products/`, {
       withCredentials: true,
     });
-    return res.data;
+    return res.data.products as Product[];
   } catch (error) {
     console.log("Error fetching products:", error);
     return [];

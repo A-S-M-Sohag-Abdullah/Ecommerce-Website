@@ -1,9 +1,9 @@
 import Image from "next/image";
 import ApexCharts from "apexcharts";
-import OrdersLineChart from "@/components/OrdersLineChart";
-import Last7DaysSales from "../components/Last7DaysSales";
-import RecentTransactions from "../components/RecentTransactions";
-import TopProducts from "../components/TopProducts";
+import OrdersLineChart from "@/app/components/Charts&Maps/OrdersLineChart";
+import Last7DaysSales from "../components/Charts&Maps/Last7DaysSales";
+import RecentTransactions from "../components/Tables/RecentTransactions";
+import TopProducts from "../components/Tables/TopProducts";
 
 export default function Dashboard() {
   return (

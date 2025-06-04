@@ -7,6 +7,7 @@ export interface IOrder extends Document {
   phoneNumber: string;
   paymentMethod: string; // Note: This seems to be a typo, should it be 'paymentMethod'?
   paidStatus?: boolean;
+  orderStatus?: string; // Optional field for order status
   trasactionId?: string; // Optional field for transaction ID
   totalPrice: number;
 }
@@ -18,6 +19,7 @@ const orderSchema = new Schema<IOrder>(
     paymentMethod: { type: String, required: true }, // Corrected typo from 'paymetmethod' to 'paymentMethod'
     trasactionId: { type: String, required: false }, // Optional field for transaction ID
     paidStatus: { type: Boolean, default: false },
+    orderStatus: { type: String, default: "Ready" }, // Optional field for order status
     phoneNumber: { type: String, required: true },
     shippingAddress: { type: Object, required: true },
     totalPrice: { type: Number, required: true },
