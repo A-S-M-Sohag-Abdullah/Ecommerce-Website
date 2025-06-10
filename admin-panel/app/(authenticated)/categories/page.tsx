@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import Link from "next/link";
 
 function Categories() {
   // Sample categories data
@@ -27,10 +28,10 @@ function Categories() {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-3xl font-semibold">Categories</h2>
         <div className="flex gap-2">
-          <button className="px-6 py-2 bg-[#1E5EFF] text-white rounded hover:bg-blue-700 text-lg flex items-center gap-2">
+          <Link href={'/categories/addCategory'} className="px-6 py-2 bg-[#1E5EFF] text-white rounded hover:bg-blue-700 text-lg flex items-center gap-2">
             <FontAwesomeIcon icon={faPlus} className="text-sm w-5" /> Add
             Category
-          </button>
+          </Link>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

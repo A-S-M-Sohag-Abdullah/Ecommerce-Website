@@ -50,7 +50,7 @@ export default async function ProductsPage({ searchParams }: Props) {
         {/* Pagination */}
         <div className="flex items-center justify-between mt-4 text-sm text-gray-600">
           <div className="flex items-center gap-5">
-            <button className="px-2 py-1  rounded" disabled>
+            <button className="px-2 py-1  rounded" >
               {Number(page) > 1 && (
                 <Link href={`/products?page=${Number(page) - 1}`}>
                   <FontAwesomeIcon icon={faArrowLeft} className="w-4" />

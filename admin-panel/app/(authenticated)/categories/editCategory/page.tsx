@@ -56,14 +56,7 @@ export default function EditCategoryPage() {
         </div>
 
         <div className="space-y-6 bg-white p-6 rounded-lg shadow h-fit sticky top-16">
-          <div className="space-y-2">
-            <h2 className="text-lg font-medium">Category Visibility</h2>
-            <label className="flex items-center space-x-2">
-              <input type="checkbox" className="w-4 h-4" defaultChecked />
-              <span>Visible on site</span>
-            </label>
-          </div>
-
+       
           <div className="space-y-2">
             <h2 className="text-lg font-medium">Category Info</h2>
             <input
