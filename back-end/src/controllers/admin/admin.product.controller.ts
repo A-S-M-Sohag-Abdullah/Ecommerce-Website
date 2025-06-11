@@ -3,12 +3,10 @@ import Product from "../../models/product.model";
 import Order from "../../models/order.model";
 
 export const addProduct = async (req: Request, res: Response) => {
-  console.log("Adding product with body:", req.body);
-  console.log("Files received:", req.files);
   try {
     const {
       name,
-      brand,
+
       price,
       description,
       category,
@@ -26,7 +24,7 @@ export const addProduct = async (req: Request, res: Response) => {
 
     const product = new Product({
       name,
-      brand,
+
       price,
       description,
       category,
@@ -111,5 +109,72 @@ export const getTopProducts = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error getting products by sales:", error);
     res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const getProductById = async (req: Request, res: Response) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      res.status(404).json({ message: "Product not found" });
+      return;
+    }
+    res.json(product);
+  } catch (error) {
+    console.error("Error getting product by ID:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+export const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.id;
+
+    const {
+      name,
+      price,
+      description,
+      category,
+      countInStock,
+      color,
+      size,
+      tags,
+    } = req.body;
+
+    console.log(size, color);
+
+    const product = await Product.findById(productId);
+    if (!product) {
+      res.status(404).json({ message: "Product not found" });
+      return;
+    }
+
+    // Handle new image uploads
+    const newImagePaths = req.files
+      ? (req.files as Express.Multer.File[]).map(
+          (file) => `/uploads/${file.filename}`
+        )
+      : [];
+
+    // Update fields only if provided
+    product.name = name || product.name;
+    product.price = price || product.price;
+    product.description = description || product.description;
+    product.category = category || product.category;
+    product.countInStock = countInStock || product.countInStock;
+
+    product.color = color;
+    product.size = size;
+    product.tags = tags;
+
+    if (newImagePaths.length > 0) {
+      product.images = newImagePaths; // Replace existing images
+    }
+
+    const updated = await product.save();
+    res.status(200).json({ success: true, product: updated });
+  } catch (err) {
+    console.error("Update product error:", err);
+    res.status(500).json({ message: "Server error updating product" });
   }
 };

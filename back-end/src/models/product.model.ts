@@ -10,6 +10,7 @@ export interface IProduct extends Document {
   color?: string[];
   size?: string[];
   tags?: string[];
+  discountPrice?: number;
   rating: {
     rate: number;
     count: number;
@@ -26,6 +27,7 @@ const productSchema = new Schema<IProduct>({
   color: { type: [String], default: [] },
   size: { type: [String], default: [] },
   tags: { type: [String], default: [] },
+  discountPrice: { type: Number, default: 0 },
   rating: {
     rate: { type: Number, default: 0 },
     count: { type: Number, default: 0 },

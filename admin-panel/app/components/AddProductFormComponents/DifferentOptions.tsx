@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { setVariants } from "@/features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -133,6 +133,10 @@ function DifferentOptions() {
       )
     );
   };
+
+  useEffect(() => {
+    if (variants.length > 0) setHasVariants(true);
+  }, [variants]);
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-medium">Different Options</h2>

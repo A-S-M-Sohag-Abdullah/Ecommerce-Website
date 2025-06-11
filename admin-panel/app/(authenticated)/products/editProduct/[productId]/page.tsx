@@ -14,11 +14,23 @@ import {
   setStock,
   setIsOnSale,
   resetProductState,
+  setTags,
+  setFiles,
+  setCategory,
+  setVariants,
 } from "@/features/product/productSlice";
-import { addProduct } from "@/api/productApi";
+import {
+  addProduct,
+  getProductById,
+  updateProductById,
+} from "@/api/productApi";
 import { toast } from "react-toastify";
+import { get } from "http";
+import { useParams } from "next/navigation";
+import { Variant, VariantType } from "@/types";
 
 export default function AddProductPage() {
+  const { productId } = useParams() || "";
   const dispatch = useDispatch();
   const {
     title,
@@ -61,14 +73,90 @@ export default function AddProductPage() {
         });
       }
 
-      const response = await addProduct(formData);
-      if (response.success) {
-        toast.success("Product added successfully!");
-        dispatch(resetProductState());
+      if (typeof productId === "string") {
+        const response = await updateProductById(productId, formData);
+        if (response.success) {
+          toast.success("Product Updated successfully!");
+          dispatch(resetProductState());
+        }
+      } else {
+        toast.error("Invalid product ID.");
       }
     } catch (error) {}
   };
 
+  useEffect(() => {
+    const previousProductState = async () => {
+      if (typeof productId === "string") {
+        const data = await getProductById(productId);
+        console.log("Fetched product data:", data);
+        if (data) {
+          dispatch(setTitle(data.name));
+          dispatch(setDescription(data.description));
+          dispatch(setBasePrice(data.price));
+          dispatch(setStock(data.countInStock));
+          const updatedFiles = await Promise.all(
+            data.images.map(async (image: string) => {
+              let imageUrl = "";
+              if (image.includes("fakestoreapi")) {
+                imageUrl = image;
+              } else {
+                imageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${image}`;
+              }
+
+              const response = await fetch(imageUrl);
+              const blob = await response.blob();
+              return new File([blob], image, { type: "image/jpeg" });
+            })
+          );
+          console.log("Updated files:", updatedFiles);
+          dispatch(setFiles(updatedFiles));
+          dispatch(setCategory(data.category));
+          if (data.hasOwnProperty("discountPrice")) {
+            console.log("Setting discount price:", data.discountPrice);
+            dispatch(setIsOnSale(true));
+            dispatch(setDiscountPrice(data.discountPrice));
+          }
+          dispatch(setTags(data.tags));
+
+          let colorVariant: Variant | undefined = undefined;
+          let sizeVariant: Variant | undefined = undefined;
+          if (data.hasOwnProperty("color")) {
+            colorVariant = {
+              id: Date.now() + Math.random(),
+              type: "Color" as VariantType,
+              sizes: [],
+              colors: data.color,
+              inputValue: "",
+              selectedColor: "#000000",
+            };
+          }
+
+          if (data.hasOwnProperty("size")) {
+            sizeVariant = {
+              id: Date.now() + Math.random(),
+              type: "Size" as VariantType,
+              sizes: data.size,
+              colors: [],
+              inputValue: "",
+              selectedColor: "",
+            };
+            console.log("Size variant adding");
+          }
+          const variantsArray: Variant[] = [];
+          if (sizeVariant) variantsArray.push(sizeVariant);
+          if (colorVariant) variantsArray.push(colorVariant);
+          dispatch(setVariants(variantsArray));
+          /*
+
+    
+          ;
+          dispatch(setVariants(data.variants)); */
+        }
+      }
+    };
+    previousProductState();
+  }, []);
   return (
     <div className="p-6 w-full mx-auto space-y-6 bg-gray-100">
       <div className="flex justify-between items-center">
