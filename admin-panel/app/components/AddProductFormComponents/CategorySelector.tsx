@@ -1,28 +1,41 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { setCategory } from "@/features/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { Category } from "@/types";
+import { getCategories } from "@/api/categoryApi";
 
 function CategorySelector() {
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const dispatch = useDispatch();
   const { category } = useSelector((state: RootState) => state.product);
+
+  const fetchCategories = async () => {
+    const categories = await getCategories();
+    setCategories(categories);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   return (
     <div className="space-y-2">
       <h2 className="text-lg font-medium">Categories</h2>
       <div className="space-y-2">
-        {["Women", "Men", "T-shirt", "Hoodie", "Dress","Technology"].map((c) => (
-          <label key={c} className="block">
+        {categories.map((c) => (
+          <label key={c._id} className="block">
             <input
               type="radio"
               name="category"
-              value={c}
-              checked={category === c}
+              value={c.name}
+              checked={category === c.name}
               onChange={(e) => dispatch(setCategory(e.target.value))}
               className="mr-2"
             />
-            {c}
+            {c.name}
           </label>
         ))}
       </div>

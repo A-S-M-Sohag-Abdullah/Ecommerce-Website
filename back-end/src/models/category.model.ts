@@ -5,6 +5,7 @@ export interface ICategory extends Document {
   name: string;
   description?: string;
   image: string;
+  items?: number;
 }
 
 const categorySchema = new mongoose.Schema<ICategory>(
@@ -12,6 +13,7 @@ const categorySchema = new mongoose.Schema<ICategory>(
     name: { type: String, required: true, unique: true },
     description: { type: String },
     image: { type: String, required: true },
+    items: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

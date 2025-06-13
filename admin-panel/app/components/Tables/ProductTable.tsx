@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 
 type Product = {
   _id: string;
@@ -53,9 +54,7 @@ const ProductTable: React.FC<Props> = ({ products }) => {
         </div>
 
         <div className="flex items-center gap-2 ms-auto">
-          <button className="w-10 h-9 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-100 cursor-pointer">
-            <Image width={16} height={16} src={"/icons/edit.svg"} alt="Edit" />
-          </button>
+          
           <button className="w-10 h-9 flex items-center justify-center  border border-gray-300 rounded hover:bg-gray-100 cursor-pointer">
             <Image
               width={16}
@@ -90,6 +89,7 @@ const ProductTable: React.FC<Props> = ({ products }) => {
             <th className="px-4 py-2">Color</th>
             <th className="px-4 py-2">Price</th>
             <th className="px-4 py-2">Rating</th>
+            <th className="px-4 py-2"></th>
           </tr>
         </thead>
         <tbody className="text-gray-800">
@@ -166,6 +166,16 @@ const ProductTable: React.FC<Props> = ({ products }) => {
               </td>
               <td className="px-4 py-2">{product.price}</td>
               <td className="px-4 py-2">{product.rating.rate}</td>
+              <td>
+                <Link href={`/products/editProduct/${product._id}`}>
+                  <Image
+                    width={16}
+                    height={16}
+                    src={"/icons/edit.svg"}
+                    alt="Edit"
+                  />
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>

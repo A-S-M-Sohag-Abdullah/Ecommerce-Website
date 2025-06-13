@@ -1,6 +1,7 @@
 // controllers/category.controller.ts
 import { Request, Response } from "express";
 import Category from "../../models/category.model";
+import Product from "../../models/product.model";
 
 // Add Category
 export const addCategory = async (req: Request, res: Response) => {
@@ -37,7 +38,9 @@ export const getCategories = async (_req: Request, res: Response) => {
 // Get Single Category
 export const getCategory = async (req: Request, res: Response) => {
   try {
-    const category = await Category.findById(req.params.id);
+    console.log("hit");
+    const categoryName = req.params.name;
+    const category = await Category.findOne({ name: categoryName });
     if (!category) {
       res.status(404).json({ message: "Category not found" });
       return;
@@ -52,22 +55,30 @@ export const getCategory = async (req: Request, res: Response) => {
 // Update Category
 export const updateCategory = async (req: Request, res: Response) => {
   try {
+    const { oldName } = req.params;
     const { name, description } = req.body;
-    const image = req.file?.path;
+    const image = `/uploads/${req.file?.filename}`;
 
     const updates: any = { name, description };
     if (image) updates.image = image;
 
-    const updated = await Category.findByIdAndUpdate(req.params.id, updates, {
-      new: true,
-    });
-
+    const updated = await Category.findOneAndUpdate(
+      { name: oldName },
+      { $set: updates },
+      { new: true }
+    );
+    if (updated) {
+      await Product.updateMany(
+        { category: oldName },
+        { $set: { category: updates.name } }
+      );
+    }
     if (!updated) {
       res.status(404).json({ message: "Category not found" });
       return;
     }
 
-    res.json(updated);
+    res.json({ success: true, updated: updated });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }

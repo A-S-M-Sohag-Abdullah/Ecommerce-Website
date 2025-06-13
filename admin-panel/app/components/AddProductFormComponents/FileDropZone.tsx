@@ -102,7 +102,7 @@ export const FileDropzone: React.FC = () => {
           </div>
         )} */}
       </div>
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 flex-wrap">
         {images.map(
           (imgSrc, index) =>
             typeof imgSrc === "string" && (

@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import { addCategory } from "@/api/categoryApi";
 import { toast } from "react-toastify";
+import Link from "next/link";
+import CategoryEditForm from "@/app/components/CategoryForm/CategoryEditForm";
 
 export default function EditCategoryPage() {
   const dispatch = useDispatch();
@@ -48,6 +50,10 @@ export default function EditCategoryPage() {
   };
 
   const handleSubmit = async () => {
+    if (!image) {
+      toast.error("Please select an image for the category.");
+      return;
+    }
     const res = await addCategory({ name, description, image });
     if (res.success) {
       toast.success("Category added successfully!");
@@ -56,7 +62,9 @@ export default function EditCategoryPage() {
   };
   return (
     <div className="p-6 w-full mx-auto space-y-6 bg-gray-100">
-      <button className="text-gray-600 hover:underline">&larr; Back</button>
+      <Link href="/categories" className="text-gray-600 hover:underline">
+        &larr; Back
+      </Link>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold">Add Category</h1>
         <div className="flex justify-end space-x-2">
@@ -73,54 +81,7 @@ export default function EditCategoryPage() {
       </div>
       <div className="grid grid-cols-1 gap-6">
         <div className="space-y-6 bg-white p-6 rounded-lg shadow h-fit sticky top-16 w-full">
-          <div className="space-y-2">
-            <h2 className="text-lg font-medium">Category Info</h2>
-            <input
-              type="text"
-              placeholder="Category Name"
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-              defaultValue=""
-              onChange={(e) => dispatch(setName(e.target.value))}
-            />
-            <textarea
-              placeholder="Category Description"
-              className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
-              rows={4}
-              onChange={(e) => dispatch(setDescription(e.target.value))}
-            />
-
-            <label className="block text-sm text-gray-600 mb-1">Image</label>
-            <div
-              className={`border border-dashed rounded p-4 text-center cursor-pointer transition-colors ${
-                isDragging ? "bg-blue-50 border-blue-300" : "bg-white"
-              }`}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <input
-                type="file"
-                onChange={handleFileChange}
-                className="hidden"
-                id="file-upload"
-              />
-
-              <p className="text-xs text-gray-400 mb-4">
-                Or drag and drop files
-              </p>
-
-              <label
-                htmlFor="file-upload"
-                className="mt-2 bg-blue-600 text-white hover:bg-blue-700 rounded px-4 py-2 inline-block"
-              >
-                Add File
-              </label>
-
-              {image && (
-                <p className="text-xs mt-2 text-gray-700">{image.name}</p>
-              )}
-            </div>
-          </div>
+          <CategoryEditForm categoryname={undefined} />
         </div>
       </div>
     </div>

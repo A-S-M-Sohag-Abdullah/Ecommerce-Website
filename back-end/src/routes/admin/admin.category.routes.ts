@@ -14,11 +14,13 @@ const router = express.Router();
 // Public
 router.get("/", getCategories);
 
-router.get("/:id", getCategory);
+router.get("/:name", getCategory);
 
 // Admin only
 router.post("/", upload.single("image"), addCategory);
-router.put("/:id", isAdmin, updateCategory);
+
+router.put("/:oldName", upload.single("image"), updateCategory);
+
 router.delete("/:id", isAdmin, deleteCategory);
 
 export default router;

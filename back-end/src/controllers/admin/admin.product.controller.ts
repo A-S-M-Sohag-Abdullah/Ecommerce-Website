@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import Product from "../../models/product.model";
 import Order from "../../models/order.model";
+import Category from "../../models/category.model";
 
 export const addProduct = async (req: Request, res: Response) => {
   try {
     const {
       name,
-
       price,
       description,
       category,
@@ -24,7 +24,6 @@ export const addProduct = async (req: Request, res: Response) => {
 
     const product = new Product({
       name,
-
       price,
       description,
       category,
@@ -36,6 +35,9 @@ export const addProduct = async (req: Request, res: Response) => {
     });
 
     const savedProduct = await product.save();
+
+    await Category.updateOne({ name: category }, { $inc: { items: 1 } });
+
     res.status(201).json({ success: true, product: savedProduct });
   } catch (err) {
     console.error("Add product error:", err);
@@ -148,6 +150,9 @@ export const updateProduct = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Product not found" });
       return;
     }
+    const oldCategory = product.category;
+    if (oldCategory !== category)
+      await Category.updateOne({ name: oldCategory }, { $inc: { items: -1 } });
 
     // Handle new image uploads
     const newImagePaths = req.files
@@ -172,6 +177,10 @@ export const updateProduct = async (req: Request, res: Response) => {
     }
 
     const updated = await product.save();
+    
+    if (oldCategory !== category)
+      await Category.updateOne({ name: category }, { $inc: { items: 1 } });
+
     res.status(200).json({ success: true, product: updated });
   } catch (err) {
     console.error("Update product error:", err);
