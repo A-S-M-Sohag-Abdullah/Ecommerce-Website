@@ -2,21 +2,29 @@ import mongoose, { Document } from "mongoose";
 
 export interface ICoupon extends Document {
   code: string;
-  discount: number; // e.g. 20 = 20%
-  expiresAt: Date;
-  usageLimit: number;
+  name: string;
+  type: "Fixed Discount" | "Percentage Discount" | "Free Shipping";
+  discountValue: number; // e.g. 20 = 20%
+  duration: Date;
+  userLimit: number;
+  discountOn: "All Products" | string;
   usedBy: mongoose.Types.ObjectId[]; // Users who have used it
 }
 
 const couponSchema = new mongoose.Schema<ICoupon>(
   {
     code: { type: String, required: true, unique: true },
-    discount: { type: Number, required: true },
-    expiresAt: { type: Date, required: true },
-    usageLimit: { type: Number, default: 1 },
+    name: { type: String, required: true },
+    type: { type: String, required: true },
+    discountValue: { type: Number, required: true },
+    duration: { type: Date },
+    userLimit: { type: Number },
+    discountOn: { type: String, required: true },
     usedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
 
-export const Coupon = mongoose.model<ICoupon>("Coupon", couponSchema);
+const Coupon = mongoose.model<ICoupon>("Coupon", couponSchema);
+
+export default Coupon;

@@ -16,6 +16,7 @@ import cookieParser from "cookie-parser";
 import adminOrderRoutes from "./routes/admin/admin.order.routes";
 import adminCustomerRoutes from "./routes/admin/admin.customer.routes";
 import adminCategoryRoutes from "./routes/admin/admin.category.routes";
+import adminCouponRoutes from "./routes/admin/admin.coupon.routes";
 
 import fs from "fs";
 import path from "path";
@@ -53,6 +54,7 @@ app.use("/api/admin/products", adminProductRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
 app.use("/api/admin/category", adminCategoryRoutes);
 app.use("/api/admin/customers", adminCustomerRoutes);
+app.use("/api/admin/coupon", adminCouponRoutes);
 
 app.use(errorHandler);
 

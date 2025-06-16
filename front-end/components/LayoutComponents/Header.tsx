@@ -1,5 +1,5 @@
 import Link from "next/link";
-import UserloggedIn from "./UserloggedIn";
+import UserloggedIn from "../Others/UserloggedIn";
 
 export default function Header() {
   return (

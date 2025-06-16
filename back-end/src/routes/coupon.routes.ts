@@ -1,12 +1,10 @@
 import express from "express";
-import { createCoupon, applyCoupon } from "../controllers/coupon.controller";
+import { applyCoupon } from "../controllers/coupon.controller";
+import { protect } from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
-// Admin creates coupon
-router.post("/", createCoupon);
-
 // User applies coupon
-router.post("/apply", applyCoupon);
+router.post("/apply",protect, applyCoupon);
 
 export default router;

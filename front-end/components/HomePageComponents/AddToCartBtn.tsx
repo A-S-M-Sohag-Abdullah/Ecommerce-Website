@@ -3,21 +3,10 @@ import { useEffect } from "react";
 import { addToCart } from "@/features/cart/cartSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-type product = {
-  _id: string;
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-};
+import { Product } from "@/types";
 
 interface AddToCartBtnProps {
-  product: product;
+  product: Product;
 }
 
 const AddToCartBtn = ({ product }: AddToCartBtnProps) => {
@@ -31,6 +20,7 @@ const AddToCartBtn = ({ product }: AddToCartBtnProps) => {
         price: product.price,
         image: product.image,
         quantity: 1,
+        images: product.images,
       })
     );
   };

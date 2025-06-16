@@ -15,7 +15,7 @@ export default function AuthSuccess() {
 
       if (token) localStorage.setItem("token", token);
       await store.dispatch(getUser()).unwrap();
-      
+
       setTimeout(() => {
         router.push("/");
       }, 2000);

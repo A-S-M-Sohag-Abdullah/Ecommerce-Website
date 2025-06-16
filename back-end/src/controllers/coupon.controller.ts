@@ -1,64 +1,94 @@
 import { Request, Response } from "express";
-import { Coupon } from "../models/coupon.model";
+import Coupon from "../models/coupon.model";
+import Product from "../models/product.model";
 
-
-// Admin creates a coupon
-export const createCoupon = async (req: Request, res: Response) => {
-  try {
-    const { code, discount, expiresAt, usageLimit } = req.body;
-
-    const existing = await Coupon.findOne({ code });
-    if (existing) {
-      res.status(400).json({ message: "Coupon already exists" });
-      return;
-    }
-
-    const coupon = await Coupon.create({
-      code,
-      discount,
-      expiresAt,
-      usageLimit,
-    });
-    res.status(201).json({ coupon });
-  } catch (err) {
-    res.status(500).json({ message: "Error creating coupon", error: err });
-  }
-};
-
-// User applies coupon at checkout
 export const applyCoupon = async (req: Request, res: Response) => {
-  try {
-    const { code, userId } = req.body;
+  const { code, cartItems, subtotal } = req.body;
+  const userId = req.user?._id;
 
-    const coupon = await Coupon.findOne({ code });
-    if (!coupon) {
-      res.status(404).json({ message: "Invalid coupon" });
-      return;
-    }
-
-    if (coupon.expiresAt < new Date()) {
-      res.status(400).json({ message: "Coupon expired" });
-      return;
-    }
-
-    if (coupon.usedBy.includes(userId)) {
-      res.status(400).json({ message: "Coupon already used" });
-      return;
-    }
-
-    if (coupon.usageLimit > 0 && coupon.usedBy.length >= coupon.usageLimit) {
-      res.status(400).json({ message: "Coupon usage limit reached" });
-      return;
-    }
-
-    // Mark as used (optional)
-    coupon.usedBy.push(userId);
-    await coupon.save();
-
-    res
-      .status(200)
-      .json({ discount: coupon.discount, message: "Coupon applied!" });
-  } catch (err) {
-    res.status(500).json({ message: "Error applying coupon", error: err });
+  if (!code || !cartItems || !subtotal || !userId) {
+    res.status(400).json({ message: "Missing required fields" });
+    return;
   }
+
+  const coupon = await Coupon.findOne({ code });
+  if (!coupon) {
+    res.status(404).json({ message: "Coupon not found" });
+    return;
+  }
+
+  if (coupon.duration && new Date() > new Date(coupon.duration)) {
+    res.status(400).json({ message: "Coupon expired" });
+    return;
+  }
+
+  if (
+    coupon.userLimit &&
+    coupon.usedBy &&
+    coupon.usedBy.length >= coupon.userLimit
+  ) {
+    res.status(400).json({ message: "Coupon usage limit reached" });
+    return;
+  }
+
+  // Ensure userId is a string or ObjectId for comparison
+  const userIdStr =
+    typeof userId === "object" && userId.toString
+      ? userId.toString()
+      : String(userId);
+  const usedByIds = coupon.usedBy.map((id: any) => id.toString());
+  if (usedByIds.includes(userIdStr)) {
+    res.status(400).json({ message: "You have already used this coupon" });
+    return;
+  }
+
+  // Apply discount only on allowed items
+  let eligibleAmount = subtotal;
+  let eligibleItemsCount = cartItems.reduce(
+    (sum: number, item: any) => sum + item.quantity,
+    0
+  );
+
+  //console.log(cartItems);
+
+  if (coupon.discountOn !== "All Products") {
+    const categoryItems = await Promise.all(
+      cartItems.map(async (item: any) => {
+        const product = await Product.findById(item._id);
+
+        console.log(product?.category, coupon.discountOn);
+        return product?.category === coupon.discountOn ? item : null;
+      })
+    );
+
+    const filteredItems = categoryItems.filter(Boolean);
+
+    eligibleAmount = filteredItems.reduce(
+      (sum, item: any) => sum + item.price * item.quantity,
+      0
+    );
+    eligibleItemsCount = filteredItems.reduce(
+      (sum, item: any) => sum + item.quantity,
+      0
+    );
+  }
+
+  // Calculate discount
+  let discountAmount = 0;
+  if (coupon.type === "Percentage Discount") {
+    discountAmount = (eligibleAmount * coupon.discountValue) / 100;
+  } else if (coupon.type === "Fixed Discount" && eligibleItemsCount > 0) {
+    discountAmount = eligibleItemsCount * coupon.discountValue;
+  } else if (coupon.type === "Free Shipping") {
+    discountAmount = 100;
+  }
+
+  const totalAfterDiscount = subtotal - discountAmount;
+
+  res.json({
+    valid: true,
+    discountAmount,
+    totalAfterDiscount,
+    message: "Coupon applied successfully",
+  });
 };

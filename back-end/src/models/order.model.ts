@@ -10,6 +10,7 @@ export interface IOrder extends Document {
   orderStatus?: string; // Optional field for order status
   trasactionId?: string; // Optional field for transaction ID
   totalPrice: number;
+  coupon?: mongoose.Types.ObjectId;
 }
 
 const orderSchema = new Schema<IOrder>(
@@ -23,6 +24,7 @@ const orderSchema = new Schema<IOrder>(
     phoneNumber: { type: String, required: true },
     shippingAddress: { type: Object, required: true },
     totalPrice: { type: Number, required: true },
+    coupon: { type: mongoose.Schema.Types.ObjectId, ref: "Coupon" },
   },
   {
     timestamps: true,

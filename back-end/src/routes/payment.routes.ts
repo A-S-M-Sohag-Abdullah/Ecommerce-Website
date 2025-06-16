@@ -15,8 +15,8 @@ router.get("/dummy", protect, dummyPayment);
 
 router.post("/initiate", protect, initiatePayment);
 router.post("/success/:tran_id", paymentSuccess);
-router.post("/fail", paymentFail);
-router.post("/cancel", paymentCancel);
+router.post("/fail/:tran_id", paymentFail);
+router.post("/cancel/:tran_id", paymentCancel);
 router.post("/ipn", paymentIPN);
 
 export default router;

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 export default function CartTotal() {
   const cart = useSelector((state: RootState) => state.cart.items);
+  const coupon = useSelector((state: RootState) => state.coupon.appliedCoupon);
   const shippingFee: number = 100;
   return (
     <div className="mt-6 p-4 border rounded-md w-1/2 ms-auto">
@@ -19,17 +20,24 @@ export default function CartTotal() {
       </p>
       <p className="flex justify-between">
         <span>Shipping:</span>{" "}
-        <span>{shippingFee === 0 ? "Free" : shippingFee}</span>
+        <span>+{shippingFee === 0 ? "Free" : shippingFee}</span>
       </p>
+
+      {coupon && (
+        <p className="flex justify-between">
+          <span>Coupon Discount:</span> <span> - {coupon?.discountValue}</span>
+        </p>
+      )}
+
       <p className="flex justify-between font-bold text-lg">
         <span>Total:</span>{" "}
         <span>
-          {cart
-            .reduce(
+          {(
+            cart.reduce(
               (sum, item) => sum + item.quantity * item.price,
               shippingFee
-            )
-            .toFixed(2)}
+            ) - (coupon ? coupon.discountValue ?? 0 : 0)
+          ).toFixed(2)}
         </span>
       </p>
       <button className="w-full mt-4 bg-red-400 text-white py-2 rounded cursor-pointer">

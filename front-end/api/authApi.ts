@@ -27,9 +27,13 @@ export const googleLoginUser = async () => {
 };
 
 export const getLoggedInUser = async () => {
-  const res = await axiosInstance.get("/api/auth/me", {
-    withCredentials: true, // So cookie is sent
-  });
-  console.log(res.data);
-  return res.data;
+  try {
+    const res = await axiosInstance.get("/api/auth/me", {
+      withCredentials: true, // So cookie is sent
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 };

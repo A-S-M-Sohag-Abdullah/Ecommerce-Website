@@ -1,5 +1,5 @@
 import { getProductById } from "@/api/productApi";
-import ProductDetailsForm from "@/components/ProductDetailsForm";
+import ProductDetailsForm from "@/components/ProductComponents/ProductDetailsForm";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -10,13 +10,10 @@ type Props = {
   };
 };
 
-
-
-
 const productDetails = async ({ params }: Props) => {
   const { productId } = params;
   const product = await getProductById(productId);
-
+  console.log(product);
   if (!product) {
     notFound();
   }
@@ -25,13 +22,24 @@ const productDetails = async ({ params }: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div>
           <div className="flex flex-col space-y-4">
-            <Image
-              src={product.image}
-              alt="Gamepad"
-              width={800}
-              height={600}
-              className="w-full rounded-lg shadow-2xl"
-            />
+            {product.image && (
+              <Image
+                src={product.image}
+                alt="product picture"
+                width={100}
+                height={100}
+                className="w-3/4"
+              />
+            )}
+            {product.images.length > 0 && (
+              <Image
+                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${product.images[0]}`}
+                alt="product picture"
+                width={100}
+                height={100}
+                className="w-3/4"
+              />
+            )}
             <div className="hidden space-x-4 [&>img]:flex-auto">
               <Image
                 src="/thumb-1.png"
@@ -89,7 +97,7 @@ const productDetails = async ({ params }: Props) => {
           <p className="text-gray-600 mt-4">${product.price}</p>
           <p className="text-sm text-gray-500 mt-2">{product.description}</p>
 
-          <ProductDetailsForm />
+          <ProductDetailsForm product={product} />
 
           <div className="mt-6 text-sm text-gray-600 border-t pt-4">
             <p>✅ Free Delivery</p>

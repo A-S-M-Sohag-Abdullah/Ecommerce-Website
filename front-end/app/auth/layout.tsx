@@ -1,4 +1,4 @@
-import GuestRoutes from "@/components/GuestRoutes";
+import GuestRoutes from "@/components/RouteHelpers/GuestRoutes";
 import Image from "next/image";
 
 export default function AuthLayout({

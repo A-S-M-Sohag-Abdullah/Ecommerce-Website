@@ -46,11 +46,9 @@ export const searchProducts = async (req: Request, res: Response) => {
 };
 
 export const getProductsByCategory = async (req: Request, res: Response) => {
-  console.log("getProductsByCategory");
   const products = await Product.find({ category: req.params.category }).sort({
     _id: -1,
   });
-  console.log(products);
   if (products) {
     res.json(products);
   } else {

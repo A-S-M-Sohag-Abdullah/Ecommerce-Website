@@ -5,12 +5,12 @@ import Image from "next/image";
 import "./globals.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/LayoutComponents/Header";
+import Footer from "@/components/LayoutComponents/Footer";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import ReduxProvider from "@/app/providers/ReduxProvider";
-import LayoutWrapper from "@/components/LayoutWrapper";
+import LayoutWrapper from "@/components/LayoutComponents/LayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

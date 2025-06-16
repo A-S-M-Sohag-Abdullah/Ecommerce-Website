@@ -1,23 +1,13 @@
 import axiosInstance from "@/lib/axiosInstance";
+import { Product } from "@/types";
 import axios from "axios";
 
-interface Product {
-  _id: string;
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
+
 
 // Get all products
 export const getProducts = async (): Promise<Product[]> => {
   try {
-    const res = await axiosInstance.get(`/api/products/`, {
+    const res = await axiosInstance.get(`/api/products/?limit=50`, {
       withCredentials: true,
     });
     return res.data.products as Product[];

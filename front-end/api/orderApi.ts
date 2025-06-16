@@ -13,6 +13,7 @@ type Order = {
     apartment: string;
     city: string;
   };
+  couponCode: string;
 };
 
 export const placeOrder = async (order: Order) => {
@@ -24,13 +25,9 @@ export const placeOrder = async (order: Order) => {
     return res.data;
   } else {
     console.log("Initiating online payment for order:", order);
-    const res = await axiosInstance.post(
-      "/api/payment/initiate",
-      order,
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await axiosInstance.post("/api/payment/initiate", order, {
+      withCredentials: true,
+    });
     window.location.replace(res.data.url);
     console.log("Payment initiation response:", res.data.url);
   }

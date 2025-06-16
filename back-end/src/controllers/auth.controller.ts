@@ -31,7 +31,7 @@ export const googleCallback = [
       sameSite: "strict", // helps prevent CSRF
       maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
     });
-    res.redirect(`http://localhost:3000/authSuccess?token=${token}`);
+    res.redirect(`http://localhost:3002/authSuccess?token=${token}`);
 
     // Option 2: Or return JSON (if you’re hitting via fetch)
     //res.status(200).json({ token, user });
@@ -172,11 +172,12 @@ export const resetPassword = async (req: Request, res: Response) => {
 
 // GET Logged In USER PROFILE
 export const getLoggedInUser = async (req: any, res: Response) => {
+  //console.log("getLoggedInUser");
   const user = await User.findById(req.user._id).select("-password");
   if (!user) {
     res.status(404).json({ message: "User not found" });
     return;
   }
-
+  //console.log(user);
   res.json(user);
 };

@@ -1,5 +1,6 @@
-import CartItems from "@/components/CartItems";
-import CartTotal from "@/components/CartTotal";
+import ApplyCoupon from "@/components/CartPageComponents/ApplyCoupon";
+import CartItems from "@/components/CartPageComponents/CartItems";
+import CartTotal from "@/components/CartPageComponents/CartTotal";
 import Image from "next/image";
 
 const cart = () => {
@@ -31,16 +32,7 @@ const cart = () => {
           </button>
         </div>
 
-        <div className="flex justify-between items-center mt-6">
-          <input
-            type="text"
-            placeholder="Coupon Code"
-            className="border p-2 w-1/2"
-          />
-          <button className="px-4 py-2 bg-red-400 text-white rounded cursor-pointer">
-            Apply Coupon
-          </button>
-        </div>
+        <ApplyCoupon></ApplyCoupon>
 
         <CartTotal />
       </div>

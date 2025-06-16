@@ -9,7 +9,7 @@ import { Fragment } from "react";
 function CartItems() {
   const cart = useSelector((state: RootState) => state.cart.items);
   const dispatch = useDispatch<AppDispatch>();
-
+  console.log(cart);
   const handleQuantityChange = (itemId: string, newQuantity: number) => {
     const quantity = Math.max(1, newQuantity); // Ensure at least 1
     dispatch(updateCart({ id: itemId, quantity }));
@@ -21,14 +21,24 @@ function CartItems() {
         return (
           <Fragment key={item._id}>
             <div className="flex items-center gap-4">
-              <Image
-                src={item?.image || ""}
-                alt="product image"
-                width={50}
-                height={50}
-                className="me-3 w-12 "
-                priority={true}
-              />
+              {item.image && (
+                <Image
+                  src={item.image}
+                  alt="product picture"
+                  width={40}
+                  height={40}
+                  className="w-10"
+                />
+              )}
+              {item?.images?.length > 0 && (
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${item.images[0]}`}
+                  alt="product picture"
+                  width={40}
+                  height={40}
+                  className="w-10"
+                />
+              )}
 
               <div>
                 <h3 className="font-medium">

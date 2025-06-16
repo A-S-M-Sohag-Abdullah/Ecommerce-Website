@@ -44,3 +44,7 @@ body {
   vertical-align: middle;
   margin-top: 5px;
 }
+
+img{
+  user-select: none;
+}

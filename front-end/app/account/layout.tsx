@@ -1,4 +1,4 @@
-import ProtectedRoute from "@/components/ProtectedRoute";
+import ProtectedRoute from "@/components/RouteHelpers/ProtectedRoute";
 
 export default function AcoountLayout({
   children,

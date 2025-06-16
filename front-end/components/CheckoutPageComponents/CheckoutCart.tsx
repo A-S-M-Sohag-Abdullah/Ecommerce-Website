@@ -41,6 +41,7 @@ const SummaryItem = ({ label, value }: { label: string; value: string }) => (
 
 function CheckoutCart() {
   const cart = useSelector((state: RootState) => state.cart.items);
+  const coupon = useSelector((state: RootState) => state.coupon.appliedCoupon);
   const dispatch = useDispatch<AppDispatch>();
   return (
     <div>
@@ -50,7 +51,10 @@ function CheckoutCart() {
           return (
             <ProductItem
               key={item._id}
-              image={item.image || ""}
+              image={
+                item.image ||
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}${item.images[0]}`
+              }
               name={item.name}
               quantity={item.quantity}
               price={item.price}
@@ -67,10 +71,19 @@ function CheckoutCart() {
             .toFixed(2)}
         />
         <SummaryItem label="Shipping" value={"100"} />
+        {coupon && (
+          <SummaryItem
+            label="Coupon Discount"
+            value={"-" + coupon.discountValue}
+          />
+        )}
         <SummaryItem
           label="Total"
           value={cart
-            .reduce((sum, item) => sum + item.quantity * item.price, 100)
+            .reduce(
+              (sum, item) => sum + item.quantity * item.price,
+              100 - (coupon ? coupon.discountValue : 0)
+            )
             .toFixed(2)}
         />
       </div>

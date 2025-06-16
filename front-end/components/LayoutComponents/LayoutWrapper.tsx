@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/LayoutComponents/Header";
+import Footer from "@/components/LayoutComponents/Footer";
 import { ToastContainer  } from "react-toastify";
 
 export default function LayoutWrapper({

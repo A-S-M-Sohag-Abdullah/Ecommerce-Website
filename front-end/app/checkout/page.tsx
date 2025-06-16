@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import CheckoutCart from "@/components/CheckoutCart";
+import CheckoutCart from "@/components/CheckoutPageComponents/CheckoutCart";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { placeOrder } from "@/api/orderApi";
 import { toast } from "react-toastify";
+import ApplyCoupon from "@/components/CartPageComponents/ApplyCoupon";
 
 type userType = {
   name: string;
@@ -16,6 +17,7 @@ type userType = {
 };
 
 const CheckoutPage = () => {
+  const coupon = useSelector((state: RootState) => state.coupon.appliedCoupon);
   const [formData, setFormData] = useState({
     firstName: "",
     companyName: "",
@@ -81,6 +83,7 @@ const CheckoutPage = () => {
         apartment: string;
         city: string;
       },
+      couponCode: coupon?.code || "",
     };
 
     const res = await placeOrder(orderDetails);
@@ -222,19 +225,7 @@ const CheckoutPage = () => {
               />
 
               {/* Coupon */}
-              <div className="flex justify-between items-center mt-4">
-                <input
-                  type="text"
-                  name="coupon"
-                  value={formData.coupon}
-                  onChange={handleChange}
-                  placeholder="Coupon Code"
-                  className="border rounded-sm outline-0 px-4 h-10"
-                />
-                <button className="px-4 h-10 bg-red-400 text-white rounded">
-                  Apply Coupon
-                </button>
-              </div>
+              <ApplyCoupon></ApplyCoupon>
 
               <button
                 className="w-full h-10 bg-red-400 text-white rounded mt-5"
