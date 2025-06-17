@@ -50,7 +50,7 @@ export const updateProfile = async (req: any, res: Response) => {
       }
       user.avatar = imagePath;
     }
-
+    console.log(shippingAddress);
     // Update address if provided
     if (shippingAddress) {
       user.shippingAddress = {
@@ -87,6 +87,67 @@ export const updateProfile = async (req: any, res: Response) => {
     });
   } catch (err) {
     console.error("Error updating profile:", err);
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
+
+export const addToWishlist = async (req: any, res: Response) => {
+  const userId = req.user._id;
+  const { productId } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (!user.wishlist) {
+      user.wishlist = [];
+    }
+
+    const alreadyExists = user.wishlist.includes(productId);
+    if (alreadyExists) {
+      return res.status(400).json({ message: "Product already in wishlist" });
+    }
+
+    user.wishlist.push(productId);
+    await user.save();
+
+    res.status(200).json({ success: true, wishlist: user.wishlist });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
+
+
+export const removeFromWishlist = async (req: any, res: Response) => {
+  const userId = req.user._id;
+  const { productId } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (user.wishlist) {
+      user.wishlist = user.wishlist.filter(
+        (id) => id.toString() !== productId.toString()
+      );
+    } else {
+      user.wishlist = [];
+    }
+    await user.save();
+
+    res.status(200).json({ success: true, wishlist: user.wishlist });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err });
+  }
+};
+
+export const getWishlist = async (req: any, res: Response) => {
+  try {
+    const user = await User.findById(req.user._id).populate("wishlist");
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json(user.wishlist);
+  } catch (err) {
     res.status(500).json({ message: "Server error", error: err });
   }
 };

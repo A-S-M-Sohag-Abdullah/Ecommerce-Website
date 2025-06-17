@@ -17,9 +17,9 @@ const Account = () => {
     email: user?.email || "",
     phone: user?.phone || "",
     avatar: null,
-    address: {
-      company: user?.address?.company || "",
-      street: user?.address?.street || "",
+    shippingAddress: {
+      companyName: user?.address?.companyName || "",
+      streetAddress: user?.address?.streetAddress || "",
       apartment: user?.address?.apartment || "",
       city: user?.address?.city || "",
     },
@@ -49,6 +49,7 @@ const Account = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      console.log(formData)
       const response = await updateUserProfile(formData);
       if (response.success) toast.success(response.message);
     } catch (error) {
@@ -109,9 +110,9 @@ const Account = () => {
         <h3 className="text-sm text-gray-500 mt-3">Company Name:</h3>
         <input
           type="text"
-          name="company"
-          value={formData.address?.company}
-          onChange={(e) => handleChange(e, "address")}
+          name="companyName"
+          value={formData.shippingAddress?.companyName}
+          onChange={(e) => handleChange(e, "shippingAddress")}
           placeholder="Company Name"
           className="w-full px-4 py-2 bg-gray-200 rounded-md"
         />
@@ -119,9 +120,9 @@ const Account = () => {
         <h3 className="text-sm text-gray-500 mt-3">Street Address:</h3>
         <input
           type="text"
-          name="street"
-          value={formData.address?.street}
-          onChange={(e) => handleChange(e, "address")}
+          name="streetAddress"
+          value={formData.shippingAddress?.streetAddress}
+          onChange={(e) => handleChange(e, "shippingAddress")}
           placeholder="Street Address"
           className="w-full px-4 py-2 bg-gray-200 rounded-md"
         />
@@ -130,8 +131,8 @@ const Account = () => {
         <input
           type="text"
           name="apartment"
-          value={formData.address?.apartment}
-          onChange={(e) => handleChange(e, "address")}
+          value={formData.shippingAddress?.apartment}
+          onChange={(e) => handleChange(e, "shippingAddress")}
           placeholder="Apartment"
           className="w-full px-4 py-2 bg-gray-200 rounded-md"
         />
@@ -140,8 +141,8 @@ const Account = () => {
         <input
           type="text"
           name="city"
-          value={formData.address?.city}
-          onChange={(e) => handleChange(e, "address")}
+          value={formData.shippingAddress?.city}
+          onChange={(e) => handleChange(e, "shippingAddress")}
           placeholder="City"
           className="w-full px-4 py-2 bg-gray-200 rounded-md"
         />

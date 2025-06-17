@@ -20,6 +20,7 @@ export interface IUser extends Document {
   isAdmin?: boolean;
   phoneNumber?: number;
   shippingAddress?: ShippingAddress;
+  wishlist?: string[];
   matchPassword(enteredPassword: string): Promise<boolean>;
 }
 
@@ -49,6 +50,12 @@ const userSchema = new Schema<IUser>(
     isAdmin: { type: Boolean, default: false },
     phoneNumber: { type: Number },
     shippingAddress: { type: shippingAddressSchema, default: {} },
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   { timestamps: true }
 );

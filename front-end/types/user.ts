@@ -4,9 +4,9 @@ export interface UserType {
   email: string;
   avatar?: File | null;
   phone?: string;
-  address?: {
-    company?: string;
-    street?: string;
+  shippingAddress?: {
+    companyName?: string;
+    streetAddress?: string;
     apartment?: string;
     city?: string;
   };
