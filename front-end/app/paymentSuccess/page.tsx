@@ -10,7 +10,7 @@ const PaymentSuccessPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(clearCart());
-  }, []);
+  }, [dispatch]);
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen text-center px-4 bg-gray-50">

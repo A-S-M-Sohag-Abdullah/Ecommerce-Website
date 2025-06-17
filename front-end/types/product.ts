@@ -1,15 +1,23 @@
+interface IReview {
+  user: string;
+  name: string;
+  rating: number;
+  comment: string;
+  createdAt?: Date;
+}
+
 export interface Product {
   _id: string;
   name: string;
   description: string;
   category: string;
   price: number;
-  image: string;
+  discountPrice?: number;
   images: string[];
   size: string[];
   color: string[];
-  rating: {
-    rate: number;
-    count: number;
-  };
+  tags?: string[];
+  reviews: IReview[];
+  rating: number;
+  numReviews: number;
 }

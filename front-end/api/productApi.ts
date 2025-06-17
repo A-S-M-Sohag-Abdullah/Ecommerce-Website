@@ -2,8 +2,6 @@ import axiosInstance from "@/lib/axiosInstance";
 import { Product } from "@/types";
 import axios from "axios";
 
-
-
 // Get all products
 export const getProducts = async (): Promise<Product[]> => {
   try {
@@ -26,6 +24,25 @@ export const getProductById = async (
     return res.data;
   } catch (error) {
     console.error("Error fetching product:", error);
+    return null;
+  }
+};
+
+export const sendReview = async (
+  productId: string,
+  review: { rating: number; comment: string }
+) => {
+  try {
+    const res = await axiosInstance.post(
+      `/api/products/${productId}/review`,
+      review,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log("Error fetching product:", error);
     return null;
   }
 };

@@ -169,6 +169,7 @@ function CreateCouponForm({ categories, isUpdating = false }: Props) {
           Cancel
         </button>
         <button
+          
           onClick={isUpdating ? handleUpdateCoupon : handleAddCoupon}
           className="bg-blue-600 text-white hover:bg-blue-700 rounded px-4 py-2"
         >

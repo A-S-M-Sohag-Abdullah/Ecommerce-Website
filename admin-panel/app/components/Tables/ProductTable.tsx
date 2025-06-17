@@ -21,10 +21,7 @@ type Product = {
   color?: string[];
   size?: string[];
   tags?: string[];
-  rating: {
-    rate: number;
-    count: number;
-  };
+  rating: number;
 };
 
 type Props = {
@@ -54,7 +51,6 @@ const ProductTable: React.FC<Props> = ({ products }) => {
         </div>
 
         <div className="flex items-center gap-2 ms-auto">
-          
           <button className="w-10 h-9 flex items-center justify-center  border border-gray-300 rounded hover:bg-gray-100 cursor-pointer">
             <Image
               width={16}
@@ -113,29 +109,15 @@ const ProductTable: React.FC<Props> = ({ products }) => {
                 </span>
               </td>
               <td className="px-4 py-2 flex items-center gap-3">
-                {product.image && (
+                {product.images.length > 0 && (
                   <Image
-                    src={product.image}
+                    src={`${product.images[0]}`}
                     alt={product.name}
                     width={40}
                     height={40}
                   ></Image>
                 )}
 
-                {!product.image && product.images.length > 0 && (
-                  <Image
-                    src={`http://localhost:5000${product.images[0]}`}
-                    alt={product.name}
-                    width={40}
-                    height={40}
-                  ></Image>
-                )}
-
-                {/* <img
-                  src={`http://localhost:5000${product.images[0]}`}
-                  alt={product.name}
-                  className="w-10 h-10 rounded object-cover "
-                /> */}
                 <div>
                   <div className="font-medium">
                     {product.name.split("").slice(0, 20).join("")}...
@@ -165,7 +147,7 @@ const ProductTable: React.FC<Props> = ({ products }) => {
                 ))}
               </td>
               <td className="px-4 py-2">{product.price}</td>
-              <td className="px-4 py-2">{product.rating.rate}</td>
+              <td className="px-4 py-2">{product.rating}</td>
               <td>
                 <Link href={`/products/editProduct/${product._id}`}>
                   <Image

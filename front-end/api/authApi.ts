@@ -37,3 +37,13 @@ export const getLoggedInUser = async () => {
     console.log(error);
   }
 };
+
+export const logoutUser = async () => {
+  try {
+    const res = await axiosInstance.post("/api/auth/logout", {
+      withCredentials: true, // So cookie is sent
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

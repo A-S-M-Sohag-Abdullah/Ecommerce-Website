@@ -1,8 +1,14 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+export interface orderItems {
+  product: mongoose.Schema.Types.ObjectId;
+  name: string;
+  price: number;
+  quantity: number;
+}
 export interface IOrder extends Document {
   user: mongoose.Types.ObjectId;
-  orderItems: any[];
+  orderItems: orderItems[];
   shippingAddress: object;
   phoneNumber: string;
   paymentMethod: string; // Note: This seems to be a typo, should it be 'paymentMethod'?

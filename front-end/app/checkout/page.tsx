@@ -60,7 +60,7 @@ const CheckoutPage = () => {
       saveInfo: true,
     };
     setFormData((prev) => ({ ...prev, ...initialData }));
-  }, []);
+  }, [auth.user?.name, auth.user?.email]);
 
   const handlePlaceOrder = async () => {
     // You can POST to backend here
@@ -88,7 +88,9 @@ const CheckoutPage = () => {
 
     const res = await placeOrder(orderDetails);
 
-    res && res.success && toast.success("Order placed successfully!");
+    if (res.success) {
+      toast.success("Order placed successfully!");
+    }
   };
 
   return (
@@ -241,8 +243,12 @@ const CheckoutPage = () => {
   );
 };
 
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  label: string;
+  required?: boolean;
+};
 // Helper Components
-const Input = ({ label, required = false, ...props }: any) => (
+const Input = ({ label, required = false, ...props }: InputProps) => (
   <div>
     <label className="block mb-1 text-sm">
       {label}
@@ -255,19 +261,15 @@ const Input = ({ label, required = false, ...props }: any) => (
   </div>
 );
 
-const Radio = ({
-  label,
-  name,
-  value,
-  checked,
-  onChange,
-}: {
+type RadioProps = {
   label: string;
   name: string;
   value: string;
   checked: boolean;
-  onChange: any;
-}) => (
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+};
+
+const Radio = ({ label, name, value, checked, onChange }: RadioProps) => (
   <label className="flex items-center space-x-2 cursor-pointer">
     <input
       type="radio"

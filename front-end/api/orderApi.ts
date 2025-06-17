@@ -32,3 +32,13 @@ export const placeOrder = async (order: Order) => {
     console.log("Payment initiation response:", res.data.url);
   }
 };
+
+export const getOrders = async () => {
+  try {
+    const res = await axiosInstance.get("/api/orders/my-orders", {
+      withCredentials: true, // Include cookies
+    });
+
+    return res.data;
+  } catch (error) {}
+};

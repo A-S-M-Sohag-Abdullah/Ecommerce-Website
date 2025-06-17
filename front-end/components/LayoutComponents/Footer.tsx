@@ -87,14 +87,27 @@ export default function Footer() {
             <p className="text-[10px] mt-3">Save $3 with App New User Only</p>
             <div className="flex space-x-2 py-2">
               <div className="app-qr">
-                <img src="/qr.svg" alt="" className="block" />
+                <Image width={50} height={50} src="/qr.svg" alt="" className="block" />
               </div>
               <div className="app-links space-y-3">
                 <a href="" className="block">
-                  <img src="/playstore.svg" alt="" className="block" />
+                  <Image
+                    src="/playstore.svg"
+                    alt="Download on Play Store"
+                    width={60}
+                    height={30}
+                    className="block"
+                  />
                 </a>
+
                 <a href="" className="block">
-                  <img src="/appstore.svg" alt="" className="block" />
+                  <Image
+                    src="/appstore.svg"
+                    alt="Download on App Store"
+                    width={60}
+                    height={30}
+                    className="block"
+                  />
                 </a>
               </div>
             </div>

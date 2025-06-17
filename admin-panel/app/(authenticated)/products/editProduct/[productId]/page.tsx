@@ -101,7 +101,7 @@ export default function AddProductPage() {
               if (image.includes("fakestoreapi")) {
                 imageUrl = image;
               } else {
-                imageUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${image}`;
+                imageUrl = `${image}`;
               }
 
               const response = await fetch(imageUrl);

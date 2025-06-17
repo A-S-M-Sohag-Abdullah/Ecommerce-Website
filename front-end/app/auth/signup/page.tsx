@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store/store";
-import {  register } from "@/features/auth/authSlice";
-import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import { register } from "@/features/auth/authSlice";
 import { googleLoginUser } from "@/api/authApi";
 
 export default function Signup() {
@@ -14,16 +14,18 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const auth = useSelector((state: RootState) => state.auth);
-  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await dispatch(register({ name, email, password })).unwrap();
-
-      //router.push("/profile");
-    } catch (err: any) {
-      console.log("Register failed:", err.message || err);
+      await dispatch(register({ name, email, password })).unwrap();
+      // Redirect or notify success here
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.log("Register failed:", err.message);
+      } else {
+        console.log("Register failed:", err);
+      }
     }
   };
 
@@ -32,7 +34,7 @@ export default function Signup() {
   };
 
   return (
-    <form action="" className="flex flex-col w-md" onSubmit={handleSubmit}>
+    <form className="flex flex-col w-md" onSubmit={handleSubmit}>
       <h1 className="text-3xl mb-2 font-medium">Create an account</h1>
       <p className="text-md mb-7 font-medium">Enter your details below</p>
 
@@ -42,45 +44,42 @@ export default function Signup() {
         className="p-2 border-b mb-9 focus:outline-0"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        required
       />
 
       <input
-        type="text"
+        type="email"
         placeholder="Email or Phone Number"
         className="p-2 border-b mb-9 focus:outline-0"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        required
       />
 
       <input
         type="password"
-        name=""
-        id=""
         placeholder="Password"
+        className="p-2 border-b mb-9 focus:outline-0"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="p-2 border-b mb-9 focus:outline-0"
+        required
       />
 
       <button className="p-4 w-full bg-red-400 text-white text-xl rounded-sm mb-3 cursor-pointer">
         Create Account
       </button>
+
       <button
         type="button"
-        onClick={() => {
-          // Here you would trigger the Google login popup and get the credential response,
-          // then call handleGoogleLogin with the response.
-          // For demonstration, we'll call with an empty object.
-          handleGoogleLogin();
-        }}
-        className="border border-gray-500 p-4 flex justify-center rounded-sm cursor-pointer"
+        onClick={handleGoogleLogin}
+        className="border border-gray-500 p-4 flex justify-center items-center gap-2 rounded-sm cursor-pointer"
       >
-        {" "}
-        <img src="/google.png" alt="" className="me-1" /> Sign in With Google
+        <Image src="/google.png" alt="Google Logo" width={20} height={20} />
+        Sign in With Google
       </button>
 
       <p className="flex justify-center mt-6">
-        Already have account?
+        Already have an account?
         <Link href="/auth/login" className="border-b ms-1">
           Login
         </Link>

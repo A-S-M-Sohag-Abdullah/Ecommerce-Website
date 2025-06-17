@@ -1,14 +1,17 @@
+import React from "react";
 import { getProductById } from "@/api/productApi";
-import { Metadata } from "next";
+import type { Metadata  } from "next";
 
 type Props = {
-  params: {
-    productId: string;
-  };
+  params: Promise<{ productId: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { productId } = params;
+// Correct typing for generateMetadata
+export async function generateMetadata(
+  { params }: Props
+
+): Promise<Metadata> {
+  const { productId } = await params;
   const product = await getProductById(productId);
 
   return {
@@ -17,15 +20,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: product?.name,
       description: product?.description,
-      images: [product?.image!],
+      images: product?.images || [],
     },
   };
 }
 
+// Layout component
 export default function ProductLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return <>{children}</>;
 }

@@ -80,7 +80,7 @@ export default function EditCategoryPage() {
                   <Image
                     width={48}
                     height={48}
-                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${product.images[0]}`}
+                    src={`${product.images[0]}`}
                     alt="Edit"
                     className="w-12 h-12 bg-gray-200 rounded"
                   />

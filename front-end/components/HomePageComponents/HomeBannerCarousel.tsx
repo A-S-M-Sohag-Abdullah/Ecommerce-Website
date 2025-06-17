@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 type Props = {
@@ -17,7 +18,13 @@ const HomeBannerCarousel = ({ images }: Props) => {
     >
       {images.map((image, index) => (
         <div key={index}>
-          <img src={image} alt={`Banner ${index + 1}`} />
+          <Image
+            width={800}
+            height={300}
+            src={image}
+            alt={`Banner ${index + 1}`}
+            className="w-full"
+          />
         </div>
       ))}
     </Carousel>

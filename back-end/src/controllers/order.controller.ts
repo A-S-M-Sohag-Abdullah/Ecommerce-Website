@@ -32,7 +32,6 @@ export const createOrder = async (req: Request, res: Response) => {
 
       const itemTotal = Math.round(product.price * item.quantity * 100) / 100;
       totalPrice = Math.round((totalPrice + itemTotal) * 100) / 100;
-  
 
       validatedItems.push({
         product: product._id,
@@ -56,5 +55,23 @@ export const createOrder = async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error("Order creation error:", error.message || error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+export const getUserOrders = async (req: any, res: Response) => {
+  try {
+    const userId = req.user._id; // Assumes auth middleware sets req.user
+
+    const orders = await Order.find({ user: userId }).sort({ createdAt: -1 });
+
+    if (!orders || orders.length === 0) {
+      res.status(404).json({ message: "No orders found for this user" });
+      return;
+    }
+
+    res.status(200).json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    res.status(500).json({ message: "Server error", error });
   }
 };

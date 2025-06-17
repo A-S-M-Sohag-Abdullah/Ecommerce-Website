@@ -15,10 +15,10 @@ export default function ReduxHydrationGate({
   useEffect(() => {
     const init = async () => {
       try {
-        console.log("here")
+        console.log("here");
         await store.dispatch(getUser()).unwrap();
       } catch (err) {
-        console.log("Token invalid");
+        console.log("Token invalid", err);
       }
       setReady(true); // Whether token is valid or not, mark as ready
     };

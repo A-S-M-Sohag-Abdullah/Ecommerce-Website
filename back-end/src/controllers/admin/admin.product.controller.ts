@@ -18,7 +18,7 @@ export const addProduct = async (req: Request, res: Response) => {
 
     const imagePaths = req.files
       ? (req.files as Express.Multer.File[]).map(
-          (file) => `/uploads/${file.filename}`
+          (file) => `http://${req.host}/uploads/${file.filename}`
         )
       : []; // path set by multer
 
@@ -177,7 +177,7 @@ export const updateProduct = async (req: Request, res: Response) => {
     }
 
     const updated = await product.save();
-    
+
     if (oldCategory !== category)
       await Category.updateOne({ name: category }, { $inc: { items: 1 } });
 

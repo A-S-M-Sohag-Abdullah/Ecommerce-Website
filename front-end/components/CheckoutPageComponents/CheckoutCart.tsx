@@ -1,9 +1,8 @@
 "use client";
-import { AppDispatch, RootState } from "@/store/store";
+import {  RootState } from "@/store/store";
 import Image from "next/image";
-import { it } from "node:test";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 
 const ProductItem = ({
   image,
@@ -42,7 +41,6 @@ const SummaryItem = ({ label, value }: { label: string; value: string }) => (
 function CheckoutCart() {
   const cart = useSelector((state: RootState) => state.cart.items);
   const coupon = useSelector((state: RootState) => state.coupon.appliedCoupon);
-  const dispatch = useDispatch<AppDispatch>();
   return (
     <div>
       {" "}
@@ -51,10 +49,7 @@ function CheckoutCart() {
           return (
             <ProductItem
               key={item._id}
-              image={
-                item.image ||
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}${item.images[0]}`
-              }
+              image={`${item.images[0]}`}
               name={item.name}
               quantity={item.quantity}
               price={item.price}

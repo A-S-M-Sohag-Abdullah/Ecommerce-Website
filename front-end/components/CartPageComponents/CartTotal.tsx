@@ -1,6 +1,7 @@
 "use client";
 
 import { RootState } from "@/store/store";
+import Link from "next/link";
 import { useSelector } from "react-redux";
 
 export default function CartTotal() {
@@ -40,9 +41,9 @@ export default function CartTotal() {
           ).toFixed(2)}
         </span>
       </p>
-      <button className="w-full mt-4 bg-red-400 text-white py-2 rounded cursor-pointer">
+      <Link href={'/checkout'} className="w-full mt-4 bg-red-400 text-white py-2 rounded cursor-pointer block text-center">
         Proceed to Checkout
-      </button>
+      </Link>
     </div>
   );
 }

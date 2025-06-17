@@ -64,13 +64,11 @@ export const importFakeProducts = async () => {
         name: item.title,
         description: item.description,
         price: item.price,
-        image: item.image,
+        images: [item.image],
         category: item.category,
         countInStock: Math.floor(Math.random() * 50) + 1, // Random stock for demo
-        rating: {
-          rate: item.rating?.rate || 0,
-          count: item.rating?.count || 0,
-        },
+        rating: item.rating?.rate || 0,
+        numReviews: item.rating?.count || 0,
       });
     }
     console.log("✅ Products imported successfully!");

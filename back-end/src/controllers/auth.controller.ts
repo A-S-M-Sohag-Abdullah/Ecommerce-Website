@@ -43,6 +43,16 @@ export const googleFailure = (_req: Request, res: Response) => {
   res.status(401).send("Failed to authenticate with Google");
 };
 
+export const logoutUser = (req: Request, res: Response) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true, // use true in production
+    sameSite: "lax", // or "none" for cross-site with secure: true
+  });
+
+  res.redirect(process.env.FRONTEND_URL?.split(",")[0] || "http://localhost:3000");
+};
+
 // Logout route
 export const logout = (req: Request, res: Response) => {
   req.logout(() => {

@@ -1,25 +1,85 @@
 "use client";
 
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { updateUserProfile } from "@/api/userApi";
+import { UserType } from "@/types";
+import { toast } from "react-toastify";
+
 const Account = () => {
+  const user = useSelector(
+    (state: RootState) => state.auth.user
+  ) as UserType | null;
+
+  const [formData, setFormData] = useState<UserType>({
+    name: user?.name || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+    avatar: null,
+    address: {
+      company: user?.address?.company || "",
+      street: user?.address?.street || "",
+      apartment: user?.address?.apartment || "",
+      city: user?.address?.city || "",
+    },
+    password: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    group?: string
+  ) => {
+    const { name, value, files } = e.target;
+
+    if (files) {
+      setFormData((prev) => ({ ...prev, avatar: files[0] }));
+    } else if (group) {
+      setFormData((prev) => ({
+        ...prev,
+        [group]: { ...prev[group], [name]: value },
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await updateUserProfile(formData);
+      if (response.success) toast.success(response.message);
+    } catch (error) {
+      console.error(error);
+      alert("Failed to update profile");
+    }
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-gray-700 font-medium">First Name</label>
+          <label className="block text-gray-700 font-medium">Name</label>
           <input
             type="text"
-            value="Md"
-            className="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none "
-            onChange={() => {}}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none"
           />
         </div>
+
         <div>
-          <label className="block text-gray-700 font-medium">Last Name</label>
+          <label className="block text-gray-700 font-medium">Phone No:</label>
           <input
             type="text"
-            value="Rimel"
-            className="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none "
-            onChange={() => {}}
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="Phone No"
+            className="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none"
           />
         </div>
       </div>
@@ -28,19 +88,62 @@ const Account = () => {
         <label className="block text-gray-700 font-medium">Email</label>
         <input
           type="email"
-          value="rimel111@gmail.com"
-          className="w-full px-4 py-2 bg-gray-200 rounded-md  cursor-not-allowed"
+          value={formData.email}
           disabled
+          className="w-full px-4 py-2 bg-gray-200 rounded-md cursor-not-allowed"
         />
       </div>
 
       <div className="mt-4">
-        <label className="block text-gray-700 font-medium">Address</label>
+        <label className="block text-gray-700 font-medium">Avatar</label>
+        <input
+          type="file"
+          name="avatar"
+          onChange={handleChange}
+          className="w-full px-4 py-2 bg-gray-200 rounded-md"
+        />
+      </div>
+
+      <div className="mt-4">
+        <label className="block text-gray-700 font-bold">Address</label>
+        <h3 className="text-sm text-gray-500 mt-3">Company Name:</h3>
         <input
           type="text"
-          value="Kingston, 5236, United State"
-          className="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none "
-          onChange={() => {}}
+          name="company"
+          value={formData.address?.company}
+          onChange={(e) => handleChange(e, "address")}
+          placeholder="Company Name"
+          className="w-full px-4 py-2 bg-gray-200 rounded-md"
+        />
+
+        <h3 className="text-sm text-gray-500 mt-3">Street Address:</h3>
+        <input
+          type="text"
+          name="street"
+          value={formData.address?.street}
+          onChange={(e) => handleChange(e, "address")}
+          placeholder="Street Address"
+          className="w-full px-4 py-2 bg-gray-200 rounded-md"
+        />
+
+        <h3 className="text-sm text-gray-500 mt-3">Apartment:</h3>
+        <input
+          type="text"
+          name="apartment"
+          value={formData.address?.apartment}
+          onChange={(e) => handleChange(e, "address")}
+          placeholder="Apartment"
+          className="w-full px-4 py-2 bg-gray-200 rounded-md"
+        />
+
+        <h3 className="text-sm text-gray-500 mt-3">City:</h3>
+        <input
+          type="text"
+          name="city"
+          value={formData.address?.city}
+          onChange={(e) => handleChange(e, "address")}
+          placeholder="City"
+          className="w-full px-4 py-2 bg-gray-200 rounded-md"
         />
       </div>
 
@@ -50,31 +153,40 @@ const Account = () => {
         </label>
         <input
           type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
           placeholder="Current Password"
-          className="w-full px-4 py-2 bg-gray-200 rounded-md mt-2 focus:outline-none "
+          className="w-full px-4 py-2 bg-gray-200 rounded-md mt-2"
         />
         <input
           type="password"
+          name="newPassword"
+          value={formData.newPassword}
+          onChange={handleChange}
           placeholder="New Password"
-          className="w-full px-4 py-2 bg-gray-200 rounded-md mt-2 focus:outline-none "
+          className="w-full px-4 py-2 bg-gray-200 rounded-md mt-2"
         />
         <input
           type="password"
+          name="confirmNewPassword"
+          value={formData.confirmNewPassword}
+          onChange={handleChange}
           placeholder="Confirm New Password"
-          className="w-full px-4 py-2 bg-gray-200 rounded-md mt-2 focus:outline-none "
+          className="w-full px-4 py-2 bg-gray-200 rounded-md mt-2"
         />
       </div>
 
       <div className="mt-6 flex justify-end space-x-2">
         <button
           type="button"
-          className="px-5 py-2 text-gray-600 cursor-pointer bg-gray-200 rounded-md hover:bg-gray-200"
+          className="px-5 py-2 text-gray-600 bg-gray-200 rounded-md hover:bg-gray-300"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="px-5 py-2 bg-red-400 cursor-pointer text-white rounded-md hover:bg-red-500"
+          className="px-5 py-2 bg-red-400 text-white rounded-md hover:bg-red-500"
         >
           Save Changes
         </button>

@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import { addToCart } from "@/features/cart/cartSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
@@ -18,7 +17,6 @@ const AddToCartBtn = ({ product }: AddToCartBtnProps) => {
         _id: product._id,
         name: product.name,
         price: product.price,
-        image: product.image,
         quantity: 1,
         images: product.images,
       })

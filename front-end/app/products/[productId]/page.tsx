@@ -1,17 +1,16 @@
 import { getProductById } from "@/api/productApi";
 import ProductDetailsForm from "@/components/ProductComponents/ProductDetailsForm";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Metadata } from "next";
 
 type Props = {
-  params: {
-    productId: string;
-  };
+  params: Promise<{ productId: string }>;
 };
 
 const productDetails = async ({ params }: Props) => {
-  const { productId } = params;
+  const { productId } = await params;
   const product = await getProductById(productId);
   console.log(product);
   if (!product) {
@@ -22,18 +21,9 @@ const productDetails = async ({ params }: Props) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div>
           <div className="flex flex-col space-y-4">
-            {product.image && (
-              <Image
-                src={product.image}
-                alt="product picture"
-                width={100}
-                height={100}
-                className="w-3/4"
-              />
-            )}
             {product.images.length > 0 && (
               <Image
-                src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${product.images[0]}`}
+                src={`${product.images[0]}`}
                 alt="product picture"
                 width={100}
                 height={100}
@@ -77,7 +67,7 @@ const productDetails = async ({ params }: Props) => {
           <h1 className="text-2xl font-bold">{product.name}</h1>
           <div className="flex items-center space-x-2 text-yellow-500 mt-2">
             <span className="flex items-center space-x-1">
-              {Array.from({ length: Math.round(product.rating.rate) }).map(
+              {Array.from({ length: Math.round(product.rating) }).map(
                 (_, starIndex) => (
                   <Image
                     key={starIndex}
@@ -91,7 +81,7 @@ const productDetails = async ({ params }: Props) => {
               )}
             </span>
             <span className="text-gray-500 text-sm">
-              ({product.rating.count} Reviews)
+              ({product.numReviews} Reviews)
             </span>
           </div>
           <p className="text-gray-600 mt-4">${product.price}</p>
@@ -104,6 +94,41 @@ const productDetails = async ({ params }: Props) => {
             <p>✅ Return Delivery (Easy 30 Days Return &amp; Refund)</p>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold mb-4">Customer Reviews</h2>
+        {product.reviews.length === 0 ? (
+          <p className="text-gray-500">No reviews yet.</p>
+        ) : (
+          product.reviews.map((review) => (
+            <div
+              key={review.user}
+              className="border border-gray-300 rounded p-4 mb-4"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg font-medium">{review.name}</h3>
+                <div className="flex gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      key={review.user + i}
+                      className={`cursor-pointer transition-colors text-2xl ${
+                        i < review.rating ? "text-yellow-400" : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 mb-1">
+                {review.createdAt
+                  ? new Date(review.createdAt).toLocaleDateString()
+                  : "Unknown date"}
+              </p>
+              <p>{review.comment}</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

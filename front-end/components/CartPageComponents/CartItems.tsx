@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
-import { updateCart, removeFromCart } from "@/features/cart/cartSlice";
+import { updateCart  } from "@/features/cart/cartSlice";
 import { Fragment } from "react";
 
 function CartItems() {
@@ -21,18 +21,10 @@ function CartItems() {
         return (
           <Fragment key={item._id}>
             <div className="flex items-center gap-4">
-              {item.image && (
-                <Image
-                  src={item.image}
-                  alt="product picture"
-                  width={40}
-                  height={40}
-                  className="w-10"
-                />
-              )}
+              
               {item?.images?.length > 0 && (
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_BASE_URL}${item.images[0]}`}
+                  src={`${item.images[0]}`}
                   alt="product picture"
                   width={40}
                   height={40}

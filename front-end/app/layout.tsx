@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import Image from "next/image";
+
 import "./globals.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import Header from "@/components/LayoutComponents/Header";
-import Footer from "@/components/LayoutComponents/Footer";
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
+
 import ReduxProvider from "@/app/providers/ReduxProvider";
 import LayoutWrapper from "@/components/LayoutComponents/LayoutWrapper";
 

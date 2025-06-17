@@ -115,7 +115,10 @@ export const initiatePayment = async (req: any, res: Response) => {
   } = req.body;
   let totalPrice = 0;
   const validatedItems = [];
-
+  if (orderItems.length < 1) {
+    res.status(500).json({ message: "No Items Selected" });
+    return;
+  }
   for (const item of orderItems) {
     const product = await Product.findById(item.productId);
     if (!product) {
@@ -140,6 +143,7 @@ export const initiatePayment = async (req: any, res: Response) => {
   let coupon: typeof Coupon.prototype | null = null;
   // Apply coupon if provided
   if (couponCode) {
+    console.log("dhukse");
     coupon = await Coupon.findOne({ code: couponCode });
 
     if (!coupon) {
@@ -249,8 +253,8 @@ export const initiatePayment = async (req: any, res: Response) => {
         coupon: coupon,
       });
       await order.save();
-      coupon.usedBy.push(req.user._id);
-      await coupon.save();
+      if (coupon) coupon.usedBy.push(req.user._id);
+      if (coupon) await coupon.save();
       res.status(200).json({ url: apiResponse.GatewayPageURL });
     } else {
       res.status(400).json({ message: "Payment initiation failed" });
@@ -279,6 +283,7 @@ export const paymentSuccess = async (req: Request, res: Response) => {
 };
 
 export const paymentFail = async (req: Request, res: Response) => {
+  console.log("payment fail for user:");
   const { tran_id } = req.params;
 
   try {
@@ -300,6 +305,7 @@ export const paymentFail = async (req: Request, res: Response) => {
 };
 
 export const paymentCancel = async (req: Request, res: Response) => {
+    console.log("payment cancel for user:");
   const { tran_id } = req.params;
 
   try {

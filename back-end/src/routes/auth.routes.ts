@@ -9,6 +9,7 @@ import {
   googleCallback,
   googleFailure,
   logout,
+  logoutUser,
 } from "../controllers/auth.controller";
 import { protect } from "../middlewares/auth.middleware";
 
@@ -18,7 +19,7 @@ router.get("/me", protect, getLoggedInUser);
 router.get("/google", googleAuth);
 router.get("/google/callback", googleCallback);
 router.get("/google/failure", googleFailure);
-router.get("/logout", logout);
+router.post("/logout", protect,logoutUser);
 router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forgotPassword);

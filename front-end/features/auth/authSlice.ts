@@ -5,8 +5,8 @@ import {
   googleLoginUser,
   loginUser,
   registerUser,
+  logoutUser,
 } from "@/api/authApi";
-import { get } from "http";
 
 export const register = createAsyncThunk("auth/register", registerUser);
 
@@ -16,6 +16,8 @@ export const getUser = createAsyncThunk(
   "auth/getLoggedInUser",
   getLoggedInUser
 );
+
+export const logout = createAsyncThunk("auth/logout", logoutUser);
 
 const initialState = {
   user: null, // User object will be stored here after successful login
@@ -27,9 +29,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout: (state) => {
+    /* logout: (state) => {
       state.user = null;
-    },
+    }, */
   },
   extraReducers: (builder) => {
     builder.addCase(getUser.pending, (state) => {
@@ -48,8 +50,11 @@ const authSlice = createSlice({
       state.loading = false;
       toast("Successfully Signed in");
     });
+    builder.addCase(logout.fulfilled,(state, action)=>{
+      state.user = null;
+      toast("Successfully Logged out");
+    })
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;

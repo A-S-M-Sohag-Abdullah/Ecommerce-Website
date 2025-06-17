@@ -1,7 +1,6 @@
 import ApplyCoupon from "@/components/CartPageComponents/ApplyCoupon";
 import CartItems from "@/components/CartPageComponents/CartItems";
 import CartTotal from "@/components/CartPageComponents/CartTotal";
-import Image from "next/image";
 
 const cart = () => {
   return (
