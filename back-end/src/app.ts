@@ -17,6 +17,7 @@ import adminOrderRoutes from "./routes/admin/admin.order.routes";
 import adminCustomerRoutes from "./routes/admin/admin.customer.routes";
 import adminCategoryRoutes from "./routes/admin/admin.category.routes";
 import adminCouponRoutes from "./routes/admin/admin.coupon.routes";
+import userCategoryRoutes from "./routes/category.routes";
 
 import fs from "fs";
 import path from "path";
@@ -42,6 +43,7 @@ app.use(express.json());
 
 app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
 
+//User Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
@@ -49,6 +51,9 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/category/", userCategoryRoutes);
+
+//Admin Routes
 app.use("/api/admin/auth", adminAuthRoutes);
 app.use("/api/admin/products", adminProductRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
@@ -57,6 +62,5 @@ app.use("/api/admin/customers", adminCustomerRoutes);
 app.use("/api/admin/coupon", adminCouponRoutes);
 
 app.use(errorHandler);
-
 
 export default app;

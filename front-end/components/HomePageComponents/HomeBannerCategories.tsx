@@ -1,34 +1,17 @@
-
-import axios from "axios";
-
-const fetchCategories = async (): Promise<string[] | null> => {
-  try {
-    const response = await axios.get("");
-    return response.data;
-  } catch (error) {
-    console.log("Error fetching categories:",error);
-    return null;
-  }
-};
+import { getCategories } from "@/api/categoruApi";
+import { category } from "@/types";
+import Link from "next/link";
 
 const HomeBannerCategories = async () => {
-  const categories: string[] = (await fetchCategories()) || [
-    "woman's fashion",
-    "Men's fashion",
-    "Electronics",
-    "Home & Lifestyle",
-    "Medicine",
-    "Sports & Outdoor",
-    "Baby's & Toys",
-    "Groceries & Pets",
-    "Health & Beauty",
-  ];
+  const categories: category[] = await getCategories();
 
   return (
     <ul className="space-y-3 text-sm font-medium [&>li>a:hover]:font-semibold [&>li>a]:hover:text-red-600 [&>li>a]:transition-all">
-      {categories.map((category, index) => (
-        <li key={index}>
-          <a href="">{category}</a>
+      {categories.map((category) => (
+        <li key={category._id}>
+          <Link href={`/products?category=${category.name}`}>
+            {category.name}
+          </Link>
         </li>
       ))}
     </ul>

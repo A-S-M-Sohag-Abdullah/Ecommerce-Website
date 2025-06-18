@@ -19,7 +19,7 @@ function Page() {
 
   const fetchOrders = async () => {
     const response = await getOrders();
-    setOrders(response.orders);
+    if (response?.orders) setOrders(response.orders);
   };
 
   useEffect(() => {

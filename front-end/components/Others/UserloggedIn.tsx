@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 import { RootState, AppDispatch } from "@/store/store";
 import Link from "next/link";
 import { logout } from "@/features/auth/authSlice";
@@ -23,6 +22,7 @@ const UserLoggedIn = () => {
       await dispatch(logout()).unwrap();
     } catch (error) {
       // handle error if needed
+      console.log(error);
     }
   };
 

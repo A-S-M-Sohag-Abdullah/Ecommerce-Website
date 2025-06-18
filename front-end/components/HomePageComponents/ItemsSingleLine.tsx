@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import AddToCartBtn from "./AddToCartBtn";
 import { Product } from "@/types";
+import AddtoWishListBtn from "./AddtoWishListBtn";
 
 const ItemsSingleLine = async () => {
   const products: Product[] = await getProducts();
@@ -24,15 +25,7 @@ const ItemsSingleLine = async () => {
                   />
                 )}
                 <AddToCartBtn product={product} />
-                <button className="rounded-full size-7 flex items-center justify-center bg-white absolute top-3 right-3 cursor-pointer">
-                  <Image
-                    src="/add-to-fav.png"
-                    alt="add to favourite"
-                    width={15}
-                    height={15}
-                    className="object-contain"
-                  />
-                </button>
+                <AddtoWishListBtn productId={product._id} />
               </div>
 
               <Link

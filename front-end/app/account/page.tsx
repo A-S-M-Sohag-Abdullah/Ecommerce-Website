@@ -15,14 +15,15 @@ const Account = () => {
   const [formData, setFormData] = useState<UserType>({
     name: user?.name || "",
     email: user?.email || "",
-    phone: user?.phone || "",
+    phoneNumber: user?.phoneNumber || "",
     avatar: null,
     shippingAddress: {
-      companyName: user?.address?.companyName || "",
-      streetAddress: user?.address?.streetAddress || "",
-      apartment: user?.address?.apartment || "",
-      city: user?.address?.city || "",
+      companyName: user?.shippingAddress?.companyName || "",
+      streetAddress: user?.shippingAddress?.streetAddress || "",
+      apartment: user?.shippingAddress?.apartment || "",
+      city: user?.shippingAddress?.city || "",
     },
+    wishlist: user?.wishlist || [""],
     password: "",
     newPassword: "",
     confirmNewPassword: "",
@@ -49,7 +50,10 @@ const Account = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log(formData)
+      if (formData.newPassword !== formData.confirmNewPassword) {
+        toast.error("New Password and confirm password field doesn't match");
+        return;
+      }
       const response = await updateUserProfile(formData);
       if (response.success) toast.success(response.message);
     } catch (error) {
@@ -76,8 +80,8 @@ const Account = () => {
           <label className="block text-gray-700 font-medium">Phone No:</label>
           <input
             type="text"
-            name="phone"
-            value={formData.phone}
+            name="phoneNumber"
+            value={formData.phoneNumber}
             onChange={handleChange}
             placeholder="Phone No"
             className="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none"

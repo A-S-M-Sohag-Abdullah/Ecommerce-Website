@@ -13,5 +13,6 @@ export interface UserType {
   password?: string;
   newPassword?: string;
   confirmNewPassword?: string;
+  wishlist: string[];
   [key: string]: any; // allow any additional dynamic fields
 }

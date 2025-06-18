@@ -1,5 +1,6 @@
 import Link from "next/link";
 import UserloggedIn from "../Others/UserloggedIn";
+import SearchBar from "./SearchBar";
 
 export default function Header() {
   return (
@@ -32,11 +33,7 @@ export default function Header() {
             id="search-box"
             className="flex  bg-gray-100 rounded-sm  px-3 py-2"
           >
-            <input
-              type="text"
-              placeholder="Search Products Here"
-              className="focus:outline-0 text-sm w-full text-black"
-            />
+            <SearchBar />
           </div>
           <UserloggedIn />
         </div>

@@ -42,7 +42,7 @@ const ReviewPage = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [productId]);
 
   useEffect(() => {
     fetchProduct();

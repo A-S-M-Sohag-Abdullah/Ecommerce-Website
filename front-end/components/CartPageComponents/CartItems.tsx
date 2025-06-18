@@ -3,8 +3,10 @@
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
-import { updateCart  } from "@/features/cart/cartSlice";
+import { removeFromCart, updateCart } from "@/features/cart/cartSlice";
 import { Fragment } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function CartItems() {
   const cart = useSelector((state: RootState) => state.cart.items);
@@ -21,7 +23,6 @@ function CartItems() {
         return (
           <Fragment key={item._id}>
             <div className="flex items-center gap-4">
-              
               {item?.images?.length > 0 && (
                 <Image
                   src={`${item.images[0]}`}
@@ -57,6 +58,14 @@ function CartItems() {
               <p className="font-semibold">
                 {(item.price * item.quantity).toFixed(2)}
               </p>
+              <button
+                onClick={() => {
+                  dispatch(removeFromCart(item._id));
+                }}
+                className="size-10 bg-red-400 rounded-sm text-white"
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
             </div>
           </Fragment>
         );

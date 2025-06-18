@@ -30,16 +30,21 @@ export const getProductById = async (req: Request, res: Response) => {
 
 export const searchProducts = async (req: Request, res: Response) => {
   try {
-    const { name } = req.query;
+    console.log("search products hit");
+    const { name, category } = req.query;
 
-    if (!name || typeof name !== "string") {
-      res.status(400).json({ message: "Please provide a search term." });
-      return;
+    // Build the filter object dynamically
+    const filter: any = {};
+
+    if (name && typeof name === "string" && name.trim() !== "") {
+      filter.name = { $regex: new RegExp(name, "i") }; // Case-insensitive regex
     }
 
-    const regex = new RegExp(name, "i"); // case-insensitive
-    const products = await Product.find({ name: regex });
+    if (category && typeof category === "string" && category.trim() !== "") {
+      filter.category = category;
+    }
 
+    const products = await Product.find(filter);
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: "Search failed", error });

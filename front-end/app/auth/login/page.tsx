@@ -7,6 +7,7 @@ import { AppDispatch } from "@/store/store";
 import { login } from "@/features/auth/authSlice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { googleLoginUser } from "@/api/authApi";
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,7 +30,9 @@ export default function Login() {
       }
     }
   };
-
+  const handleGoogleLogin = async () => {
+    googleLoginUser();
+  };
   return (
     <form className="flex flex-col w-md" onSubmit={handleSubmit}>
       <h1 className="text-3xl mb-2 font-medium">Log in to Exclusive</h1>
@@ -63,6 +66,7 @@ export default function Login() {
 
       <button
         type="button"
+        onClick={handleGoogleLogin}
         className="border border-gray-500 p-4 flex justify-center items-center gap-2 rounded-sm cursor-pointer"
       >
         <Image src="/google.png" alt="Google" width={20} height={20} />

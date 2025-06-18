@@ -19,7 +19,7 @@ const cart = () => {
             <p className="font-semibold">Quantity</p>
           </div>
           <div className="flex items-center gap-2 justify-end">
-            <p className="font-semibold">Subtotal</p>
+            <p className="font-semibold me-10">Subtotal</p>
           </div>
 
           <CartItems />

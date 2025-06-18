@@ -1,4 +1,5 @@
 import ProtectedRoute from "@/components/RouteHelpers/ProtectedRoute";
+import Link from "next/link";
 
 export default function AcoountLayout({
   children,
@@ -40,7 +41,7 @@ export default function AcoountLayout({
             </li>
           </ul>
 
-          <h2 className="text-gray-700 font-bold mt-6 mb-4">My Wishlist</h2>
+          <Link href={'/account/my-favourites'} className="text-gray-700 font-bold mt-6 mb-4 block">My Wishlist</Link>
         </div>
 
         <div className="w-3/4 p-8">

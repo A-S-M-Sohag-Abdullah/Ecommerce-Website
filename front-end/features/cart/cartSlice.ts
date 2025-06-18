@@ -1,6 +1,7 @@
+import { Product } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-export interface CartItem {
+export interface CartItem extends Product {
   _id: string;
   name: string;
   price: number;

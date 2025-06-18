@@ -29,6 +29,9 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
     /* logout: (state) => {
       state.user = null;
     }, */
@@ -50,11 +53,13 @@ const authSlice = createSlice({
       state.loading = false;
       toast("Successfully Signed in");
     });
-    builder.addCase(logout.fulfilled,(state, action)=>{
+    builder.addCase(logout.fulfilled, (state, action) => {
       state.user = null;
       toast("Successfully Logged out");
-    })
+    });
   },
 });
+
+export const { setUser } = authSlice.actions;
 
 export default authSlice.reducer;

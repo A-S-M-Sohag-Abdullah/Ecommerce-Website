@@ -46,3 +46,51 @@ export const sendReview = async (
     return null;
   }
 };
+
+export const addToWishList = async ({ productId }: { productId: string }) => {
+  try {
+    const res = await axiosInstance.post(
+      `/api/products/wishlist/add`,
+      { productId },
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const removeFromWishList = async ({
+  productId,
+}: {
+  productId: string;
+}) => {
+  try {
+    const res = await axiosInstance.post(
+      `/api/products/wishlist/remove`,
+      { productId },
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchProducts = async (query: string, category: string) => {
+  try {
+    const res = await axiosInstance.get(
+      `/api/products/seachProducts/search?name=${query || ""}&&category=${
+        category || ""
+      }`
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

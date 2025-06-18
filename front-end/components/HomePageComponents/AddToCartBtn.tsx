@@ -14,11 +14,8 @@ const AddToCartBtn = ({ product }: AddToCartBtnProps) => {
   const handleAddToCart = () => {
     dispatch(
       addToCart({
-        _id: product._id,
-        name: product.name,
-        price: product.price,
+        ...product,
         quantity: 1,
-        images: product.images,
       })
     );
   };
