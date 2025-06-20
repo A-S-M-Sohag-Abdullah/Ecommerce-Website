@@ -28,7 +28,7 @@ export const googleCallback = [
     res.cookie("token", token, {
       httpOnly: true,
       secure: true, // use HTTPS in prod
-      sameSite: "strict", // helps prevent CSRF
+      sameSite: "none", // helps prevent CSRF
       maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
     });
     res.redirect(`http://localhost:3002/authSuccess?token=${token}`);
@@ -47,7 +47,7 @@ export const logoutUser = (req: Request, res: Response) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: true, // use true in production
-    sameSite: "lax", // or "none" for cross-site with secure: true
+    sameSite: "none", // or "none" for cross-site with secure: true
   });
 
   res.redirect(process.env.FRONTEND_URL?.split(",")[0] || "http://localhost:3000");
@@ -76,7 +76,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
       .cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS in prod
-        sameSite: "strict", // helps prevent CSRF
+        sameSite: "none", // helps prevent CSRF
         maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
       })
       .json({
@@ -101,7 +101,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       .cookie("token", token, {
         httpOnly: true,
         secure: true, // use HTTPS in prod
-        sameSite: "strict", // helps prevent CSRF
+        sameSite: "none", // helps prevent CSRF
         maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
       })
       .json({

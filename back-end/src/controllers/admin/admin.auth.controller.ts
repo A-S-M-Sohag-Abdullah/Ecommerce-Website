@@ -25,7 +25,7 @@ export const adminLogin = async (req: Request, res: Response) => {
     .cookie("admin_token", token, {
       httpOnly: true,
       secure: true, // use HTTPS in production
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: keepLoggedInDuration, // 1 week
     })
     .json({ success: true, message: "Admin login successful", token });
