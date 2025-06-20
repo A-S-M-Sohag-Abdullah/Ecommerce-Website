@@ -4,8 +4,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import "./globals.css";
 
-/* import ReduxProvider from "@/app/providers/ReduxProvider";
-import LayoutWrapper from "@/components/LayoutComponents/LayoutWrapper"; */
+import ReduxProvider from "@/app/providers/ReduxProvider";
+import LayoutWrapper from "@/components/LayoutComponents/LayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,10 +32,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        s{children}
-        {/* <ReduxProvider>
-          <LayoutWrapper></LayoutWrapper>
-        </ReduxProvider> */}
+        <ReduxProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </ReduxProvider>
       </body>
     </html>
   );
