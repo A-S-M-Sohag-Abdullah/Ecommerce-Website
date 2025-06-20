@@ -4,8 +4,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import "./globals.css";
 
-import ReduxProvider from "@/app/providers/ReduxProvider";
-import LayoutWrapper from "@/components/LayoutComponents/LayoutWrapper";
+/* import ReduxProvider from "@/app/providers/ReduxProvider";
+import LayoutWrapper from "@/components/LayoutComponents/LayoutWrapper"; */
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
