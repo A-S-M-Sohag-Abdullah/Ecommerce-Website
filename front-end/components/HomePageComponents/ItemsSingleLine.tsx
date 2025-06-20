@@ -7,7 +7,6 @@ import AddtoWishListBtn from "./AddtoWishListBtn";
 
 const ItemsSingleLine = async () => {
   const products: Product[] = await getProducts() || [];
-  console.log(products);
   return (
     <section>
       <div className="container mx-auto my-5 ">
