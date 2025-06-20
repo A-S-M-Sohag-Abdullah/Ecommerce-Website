@@ -2,9 +2,9 @@ import { getTopProducts } from "@/api/productApi";
 import { TopProduct } from "@/types";
 
 export default async function TopProducts() {
-  const { topProducts } = await getTopProducts();
+  const { topProducts } = (await getTopProducts()) || [];
   const products: TopProduct[] = topProducts;
-  console.log("Top Products:", products);
+
   return (
     <div className="bg-white p-6  rounded-lg border border-gray-200 shadow-sm mb-3 w-1/2 h-fit">
       <h2 className="text-lg font-semibold mb-2">Top Products by Units Sold</h2>
@@ -22,7 +22,7 @@ export default async function TopProducts() {
               key={prod._id}
               className="border-t border-gray-200 hover:bg-gray-50 text-xs"
             >
-              <td className="px-4 py-2">{prod.name.slice(0,15)}...</td>
+              <td className="px-4 py-2">{prod.name.slice(0, 15)}...</td>
               <td className="px-4 py-2">{prod.price}</td>
               <td className="px-4 py-2">{prod.totalSold}</td>
             </tr>

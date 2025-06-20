@@ -39,7 +39,7 @@ export const getTopProducts = async (page: number = 1, limit: number = 5) => {
       params: { page, limit },
       withCredentials: true,
     });
-    console.log("Top Products fetched successfully:", res.data);
+
     return res.data;
   } catch (error) {
     console.error("Error fetching top products:", error);
@@ -72,7 +72,6 @@ export const updateProductById = async (id: string, productData: FormData) => {
         withCredentials: true,
       }
     );
-    console.log("Product Updated successfully:", res.data);
     return res.data;
   } catch (error) {
     console.error("Error adding product:", error);

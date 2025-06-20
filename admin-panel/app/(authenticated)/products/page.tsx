@@ -21,7 +21,7 @@ export default async function ProductsPage({ searchParams }: Props) {
   const params = await searchParams;
   const page = params.page || 1;
 
-  const { products, total, totalPages } = await getProducts(Number(page));
+  const { products, total, totalPages } = await getProducts(Number(page)) ;
 
   const visiblePages = getPageNumbers(Number(page), totalPages);
 

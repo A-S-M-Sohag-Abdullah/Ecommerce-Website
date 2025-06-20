@@ -7,7 +7,7 @@ import { Category } from "@/types";
 
 async function Categories() {
   // Sample categories data
-  const categories: Category[] = await getCategories();
+  const categories: Category[] = (await getCategories()) || [];
 
   return (
     <div className="bg-gray-100 p-6 rounded-lg shadow-md w-full">
@@ -39,7 +39,10 @@ async function Categories() {
                 className="w-full h-44"
               />
               <div className="w-full h-full absolute top-0 left-0 bg-[#00000084] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Link href={`/categories/editCategory?category=${category.name}`} className="px-4 py-2 bg-white text-blue-600 rounded flex items-center gap-2 hover:bg-gray-100">
+                <Link
+                  href={`/categories/editCategory?category=${category.name}`}
+                  className="px-4 py-2 bg-white text-blue-600 rounded flex items-center gap-2 hover:bg-gray-100"
+                >
                   <Image
                     width={16}
                     height={16}
