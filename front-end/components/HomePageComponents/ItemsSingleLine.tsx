@@ -6,7 +6,7 @@ import { Product } from "@/types";
 import AddtoWishListBtn from "./AddtoWishListBtn";
 
 const ItemsSingleLine = async () => {
-  const products: Product[] = await getProducts();
+  const products: Product[] = await getProducts() || [];
   console.log(products);
   return (
     <section>

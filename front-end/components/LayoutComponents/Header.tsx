@@ -1,6 +1,7 @@
 import Link from "next/link";
 import UserloggedIn from "../Others/UserloggedIn";
 import SearchBar from "./SearchBar";
+import Navbar from "../HomePageComponents/Navbar";
 
 export default function Header() {
   return (
@@ -9,25 +10,7 @@ export default function Header() {
         <div className="text-3xl font-semibold text-red-400">
           <Link href="/">Exclusive</Link>
         </div>
-        <nav>
-          <ul className="flex [&>li:hover]:text-red-500 [&>li]:font-semibold [&>li]:text-black ">
-            <li className="px-3 font-medium">
-              <Link href="/">Home</Link>
-            </li>
-            <li className="px-3 font-medium">
-              <Link href="/contact">Contact</Link>
-            </li>
-            <li className="px-3 font-medium">
-              <a href="#">About</a>
-            </li>
-            <li className="px-3 font-medium">
-              <Link href="/auth/signup">Sign Up</Link>
-            </li>
-            <li className="px-3 font-medium">
-              <Link href="/cart">cart</Link>
-            </li>
-          </ul>
-        </nav>
+        <Navbar />
         <div className="flex items-center space-x-4">
           <div
             id="search-box"

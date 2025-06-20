@@ -1,6 +1,7 @@
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -27,58 +28,50 @@ export default function Footer() {
           <div className="w-1/5">
             <h3 className="text-xl">Support</h3>
             <ul className="text-[12px] space-y-3 mt-3 [&>li:hover]:font-semibold">
+              <li>111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.</li>
               <li>
-                <a href="#">My Account</a>
+                <a href="#">exclusive@gmail.com</a>
               </li>
               <li>
-                <a href="#">Login / Register</a>
-              </li>
-              <li>
-                <a href="#">Cart</a>
-              </li>
-              <li>
-                <a href="#">Wishlist</a>
-              </li>
-              <li>
-                <a href="#">Shop</a>
+                <a href="#">+88015-88888-9999</a>
               </li>
             </ul>
           </div>
 
           <div className="w-1/5">
             <h3 className="text-xl">Account</h3>
-            <ul className="text-[12px] space-y-3 mt-3  [&>li:hover]:font-semibold">
+            <ul className="text-[12px] space-y-3 mt-3 [&>li:hover]:font-semibold">
               <li>
-                <a href="#">My Account</a>
+                <Link href="/account">My Account</Link>
               </li>
               <li>
-                <a href="#">Login / Register</a>
+                <Link href="/login">Login / Register</Link>
               </li>
               <li>
-                <a href="#">Cart</a>
+                <Link href="/cart">Cart</Link>
               </li>
               <li>
-                <a href="#">Wishlist</a>
+                <Link href="/account/my-favourites">Wishlist</Link>
               </li>
               <li>
-                <a href="#">Shop</a>
+                <Link href="/shop">Shop</Link>
               </li>
             </ul>
           </div>
           <div className="w-1/5">
             <h3 className="text-xl">Quick Link</h3>
-            <ul className="text-[12px] space-y-3 mt-3  [&>li:hover]:font-semibold">
+            <ul className="text-[12px] space-y-3 mt-3 [&>li:hover]:font-semibold">
               <li>
-                <a href="#">Privacy Policy</a>
+                <Link href="/privacy-policy">Privacy Policy</Link>
               </li>
               <li>
-                <a href="#">Terms Of Use</a>
+                <Link href="/terms-of-use">Terms Of Use</Link>
               </li>
               <li>
-                <a href="#">FAQ</a>
+                <Link href="/faq">FAQ</Link>
               </li>
               <li>
-                <a href="#">Contact</a>
+                <Link href="/contact">Contact</Link>
               </li>
             </ul>
           </div>
@@ -87,7 +80,13 @@ export default function Footer() {
             <p className="text-[10px] mt-3">Save $3 with App New User Only</p>
             <div className="flex space-x-2 py-2">
               <div className="app-qr">
-                <Image width={50} height={50} src="/qr.svg" alt="" className="block" />
+                <Image
+                  width={50}
+                  height={50}
+                  src="/qr.svg"
+                  alt=""
+                  className="block"
+                />
               </div>
               <div className="app-links space-y-3">
                 <a href="" className="block">

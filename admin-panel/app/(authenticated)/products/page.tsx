@@ -15,7 +15,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  searchParams: { [key: string]: string };
+  searchParams: Promise<{ [key: string]: string }>;
 };
 export default async function ProductsPage({ searchParams }: Props) {
   const params = await searchParams;

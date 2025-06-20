@@ -15,7 +15,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 type Props = {
-  searchParams: { [key: string]: string };
+  searchParams: Promise<{ [key: string]: string }>;
 };
 
 export default async function OrderPage({ searchParams }: Props) {

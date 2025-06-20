@@ -17,7 +17,7 @@ const productDetails = async ({ params }: Props) => {
     notFound();
   }
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg my-8">
+    <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg my-8 px-10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         <div>
           <div className="flex flex-col space-y-4">

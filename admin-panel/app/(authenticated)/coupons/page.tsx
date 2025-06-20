@@ -19,7 +19,7 @@ import { getAllCoupons } from "@/api/couponApi";
 import getPageNumbers from "@/lib/getPageNumbers";
 
 type Props = {
-  searchParams: { [key: string]: string };
+  searchParams: Promise<{ [key: string]: string }>;
 };
 async function Copupns({ searchParams }: Props) {
   const params = await searchParams;

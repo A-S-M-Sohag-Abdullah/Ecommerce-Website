@@ -19,11 +19,11 @@ export default async function SearchPage({ searchParams }: SearchParams) {
   const categories: category[] = await getCategories();
 
   return (
-    <div>
+    <div className="px-10 pb-10">
       <CategorySelector categories={categories}></CategorySelector>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
         {products?.map((product: Product) => (
-          <div key={product._id} className="w-full">
+          <div key={product._id} className="w-full flex flex-col space-y-1">
             <div className="rounded-sm overflow-hidden w-full aspect-square relative flex items-center justify-center bg-gray-200 group">
               {product.images.length > 0 && (
                 <Image

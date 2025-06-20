@@ -46,7 +46,7 @@ const ReviewPage = () => {
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [fetchProduct]);
 
   return (
     <section className="py-10 px-4 max-w-2xl mx-auto">
