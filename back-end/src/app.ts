@@ -32,7 +32,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: FRONTEND_URL?.split(",") || [],
+    origin: FRONTEND_URL?.split(","),
     credentials: true, // ✅ Allow cookies
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
