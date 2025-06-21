@@ -23,7 +23,7 @@ export const loginUser = async (credentials: {
 
 // src/redux/api/googleLoginUser.ts
 export const googleLoginUser = async () => {
-  window.open(`https://ecommerce-website-rxvd.onrender.com/api/auth/google/callback`, "_self");
+  window.open(process.env.NEXT_PUBLIC_API_GOOGLE_CALLBACK_URL, "_self");
 };
 
 export const getLoggedInUser = async () => {
