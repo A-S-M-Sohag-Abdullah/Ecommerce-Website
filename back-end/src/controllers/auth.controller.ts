@@ -31,7 +31,9 @@ export const googleCallback = [
       sameSite: "none", // helps prevent CSRF
       maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
     });
-    res.redirect(`http://localhost:3002/authSuccess?token=${token}`);
+    res.redirect(
+      `${process.env.FRONTEND_URL?.split(",")[0]}/authSuccess?token=${token}`
+    );
 
     // Option 2: Or return JSON (if you’re hitting via fetch)
     //res.status(200).json({ token, user });
@@ -50,13 +52,17 @@ export const logoutUser = (req: Request, res: Response) => {
     sameSite: "none", // or "none" for cross-site with secure: true
   });
 
-  res.redirect(process.env.FRONTEND_URL?.split(",")[0] || "http://localhost:3000");
+  res.redirect(
+    process.env.FRONTEND_URL?.split(",")[0] || "http://localhost:3000"
+  );
 };
 
 // Logout route
 export const logout = (req: Request, res: Response) => {
   req.logout(() => {
-    res.redirect("http://localhost:3000");
+   res.redirect(
+    process.env.FRONTEND_URL?.split(",")[0] || "http://localhost:3000"
+  );
   });
 };
 
