@@ -40,7 +40,7 @@ export const getLoggedInUser = async () => {
 
 export const logoutUser = async () => {
   try {
-    const res = await axiosInstance.post("/api/auth/logout", {
+    await axiosInstance.post("/api/auth/logout", {
       withCredentials: true, // So cookie is sent
     });
   } catch (error) {

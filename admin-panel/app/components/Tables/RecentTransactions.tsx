@@ -25,8 +25,12 @@ export default async function RecentTransactions() {
                 className="border-t border-gray-200 hover:bg-gray-50"
               >
                 <td className="px-4 py-2">{trasaction.user.name}</td>
-                <td className="px-4 py-2">{formatDate(trasaction.createdAt)}</td>
-                <td className="px-4 py-2">{trasaction.totalPrice}</td>
+                <td className="px-4 py-2">
+                  {formatDate(trasaction.createdAt)}
+                </td>
+                <td className="px-4 py-2">
+                  {trasaction.totalPrice.toFixed(2)}
+                </td>
                 <td className="px-4 py-2 text-center">
                   <span
                     className={`px-2 py-1 text-sx rounded-sm font-medium ${
